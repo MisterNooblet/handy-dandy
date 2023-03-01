@@ -1,4 +1,4 @@
-import { Box, Container, display } from '@mui/system'
+import { Box, Container } from '@mui/system'
 import React from 'react'
 import { Outlet } from 'react-router-dom'
 import Footer from './components/Footer'
