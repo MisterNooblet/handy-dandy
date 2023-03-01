@@ -12,12 +12,15 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import HandymanIcon from '@mui/icons-material/Handyman';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const pages = [{ name: 'Tool-o-Pedia', path: '/wiki' }, { name: 'Toolbox', path: '/toolbox' }];
-const settings = ['Profile', 'Logout'];
+const settings = [{ name: 'Profile', path: '/profile' }, { name: 'Logout', path: '/logout' }];
+const loginSettings = [{ name: 'Login', path: '/login' }, { name: 'Signup', path: '/register' },]
 
 function Navbar() {
+    const user = useSelector((state) => state.auth)
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -89,7 +92,7 @@ function Navbar() {
                             }}
                         >
                             {pages.map((page) => (
-                                <NavLink to={page.path}>
+                                <NavLink key={page.name} to={page.path}>
                                     <MenuItem key={page.name} onClick={handleCloseNavMenu}>
                                         <Typography textAlign="center" color={'black'}>{page.name}</Typography>
                                     </MenuItem>
@@ -118,7 +121,7 @@ function Navbar() {
                     </Typography>
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                         {pages.map((page) => (
-                            <NavLink to={page.path}>
+                            <NavLink key={page.name} to={page.path}>
                                 <Button
                                     key={page.name}
                                     onClick={handleCloseNavMenu}
@@ -152,11 +155,20 @@ function Navbar() {
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
-                            {settings.map((setting) => (
-                                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                    <Typography textAlign="center">{setting}</Typography>
-                                </MenuItem>
+                            {!user.id ? loginSettings.map((setting) => (
+                                <Link key={setting.name} to={setting.path}>
+                                    <MenuItem key={setting.name} onClick={handleCloseUserMenu}>
+                                        <Typography textAlign="center" color={'black'}>{setting.name}</Typography>
+                                    </MenuItem>
+                                </Link>
+                            )) : settings.map((setting) => (
+                                <Link key={setting.name} to={setting.path}>
+                                    <MenuItem key={setting.name} onClick={handleCloseUserMenu}>
+                                        <Typography textAlign="center" color={'black'}>{setting.name}</Typography>
+                                    </MenuItem>
+                                </Link>
                             ))}
+
                         </Menu>
                     </Box>
                 </Toolbar>
