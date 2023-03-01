@@ -13,23 +13,35 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
+import { validateEmail } from '../../utils/emailValidator';
 
 
 
 const theme = createTheme();
 
 export default function Register() {
+
+
+
+
+
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        console.log({
-            firstName: data.get('firstName'),
-            lastName: data.get('lastName'),
-            email: data.get('email'),
-            password: data.get('password'),
-            allowPromotions: data.get('checkbox')
-        });
+        const firstName = data.get('firstName')
+        const lastName = data.get('lastName')
+        const email = data.get('email')
+        const password = data.get('password')
+        const password2 = data.get('password2')
+        const allowPromotions = data.get('checkbox')
+        const invalidMail = validateEmail(email)
+        if (!invalidMail && password2 === password && password.length >= 8 && password2.length >= 8 && firstName.length > 0 && lastName.length > 0) {
+            console.log('success');
+        }
     };
+
+
+
 
     return (
         <ThemeProvider theme={theme}>
@@ -97,10 +109,10 @@ export default function Register() {
                                 <TextField
                                     required
                                     fullWidth
-                                    name="password"
+                                    name="password2"
                                     label="Confirm Password"
                                     type="password"
-                                    id="password"
+                                    id="password2"
                                     autoComplete="new-password"
                                 />
                             </Grid>
