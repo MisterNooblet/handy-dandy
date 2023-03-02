@@ -1,5 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
-import { Error404, Home, LayoutComponent, Toolbox, Wiki, Register } from "../pages";
+import { Error404, Home, LayoutComponent, Toolbox, Wiki, Register, Login } from "../pages";
 
 const router = createBrowserRouter([
     {
@@ -11,6 +11,7 @@ const router = createBrowserRouter([
             { path: '/wiki', element: <Wiki /> },
             { path: '/toolbox', element: <Toolbox /> },
             { path: '/register', element: <Register /> },
+            { path: '/login', element: <Login /> },
         ]
 
     },

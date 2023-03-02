@@ -6,4 +6,5 @@ import LayoutComponent from "./LayoutComponent/LayoutComponent";
 import Error404 from "./Error/Error404.page";
 import Admin from "./Admin/Admin.page";
 import Register from "./Register/Register.page";
-export { Home, Profile, Toolbox, Wiki, LayoutComponent, Error404, Admin, Register }
+import Login from "./Login/Login.page";
+export { Home, Profile, Toolbox, Wiki, LayoutComponent, Error404, Admin, Register, Login }

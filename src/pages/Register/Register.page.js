@@ -11,7 +11,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { validateEmail } from '../../utils/emailValidator';
 import AutoComplete from '../../components/AutoComplete'
 import { useDispatch, useSelector } from 'react-redux';
@@ -23,6 +23,7 @@ import fireBaseAuth from '../../utils/fireBaseAuth';
 const theme = createTheme();
 
 export default function Register() {
+    const navigate = useNavigate()
     const api = useSelector((state) => state.api)
     const dispatch = useDispatch()
     React.useEffect(() => {
@@ -46,6 +47,7 @@ export default function Register() {
         const invalidMail = validateEmail(email)
         if (!invalidMail && password2 === password && password.length >= 8 && password2.length >= 8 && firstName.length > 0 && lastName.length > 0) {
             fireBaseAuth.signUp(email, password, firstName, lastName, country)
+            navigate('/')
         };
 
     }

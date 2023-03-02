@@ -32,6 +32,7 @@ function Navbar() {
             if (userData) {
                 setUser(prev => userData)
 
+
                 // ...
             } else {
                 setUser(prev => null)
@@ -156,7 +157,7 @@ function Navbar() {
                     <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                                <Avatar alt={user && user.displayName} src={user && user.photoURL ? user.photoURL : '/'} />
                             </IconButton>
                         </Tooltip>
                         <Menu

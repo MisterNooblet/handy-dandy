@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, getAuth, signOut, updateProfile } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, signOut, updateProfile } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "./fireBaseConfig";
 const fireBaseAuth = {
@@ -36,6 +36,19 @@ const fireBaseAuth = {
             country: country,
             toolbox: [],
         });
+    },
+
+    signIn(email, password) {
+        const auth = getAuth();
+        signInWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                // Signed in 
+                // ...
+            })
+            .catch((error) => {
+                // const errorCode = error.code;
+                // const errorMessage = error.message;
+            });
     },
 
     signUserOut(setUser) {
