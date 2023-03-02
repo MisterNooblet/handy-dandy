@@ -16,6 +16,7 @@ import { validateEmail } from '../../utils/emailValidator';
 import AutoComplete from '../../components/AutoComplete'
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchCountries } from '../../store/apiSlice';
+import fireBaseAuth from '../../utils/fireBaseAuth';
 
 
 
@@ -44,12 +45,10 @@ export default function Register() {
         const allowPromotions = data.get('checkbox')
         const invalidMail = validateEmail(email)
         if (!invalidMail && password2 === password && password.length >= 8 && password2.length >= 8 && firstName.length > 0 && lastName.length > 0) {
-            console.log('success');
-            console.log(country)
-        }
-    };
+            fireBaseAuth.signUp(email, password, firstName, lastName, country)
+        };
 
-
+    }
 
 
     return (

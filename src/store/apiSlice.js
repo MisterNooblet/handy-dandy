@@ -29,27 +29,6 @@ export const fetchCountries = createAsyncThunk(
     }
 )
 
-// const getCountries = async () => {
-//     try {
-//         const response = await axios.get('https://restcountries.com/v3.1/all', {
-//             transformResponse: [
-//                 (data) => {
-//                     const parsedData = JSON.parse(data)
-//                     const result = parsedData.map(country => country.name.common).sort()
-//                     const objectArr = result.map(country => { return { label: country } })
-//                     return objectArr
-//                 }
-//             ]
-//         })
-//         const result = await response.data
-//         return result
-//     } catch (error) {
-
-//     }
-
-// }
-
-
 
 const apiSlice = createSlice({
     name: 'api',

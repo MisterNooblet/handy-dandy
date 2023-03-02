@@ -13,14 +13,34 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import HandymanIcon from '@mui/icons-material/Handyman';
 import { Link, NavLink } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { onAuthStateChanged } from "firebase/auth";
+import fireBaseAuth from '../../../utils/fireBaseAuth';
+import { auth } from '../../../utils/fireBaseConfig';
+
+
+
 
 const pages = [{ name: 'Tool-o-Pedia', path: '/wiki' }, { name: 'Toolbox', path: '/toolbox' }];
-const settings = [{ name: 'Profile', path: '/profile' }, { name: 'Logout', path: '/logout' }];
+const settings = [{ name: 'Profile', path: '/profile' }, { name: 'Logout', path: fireBaseAuth.signUserOut }];
 const loginSettings = [{ name: 'Login', path: '/login' }, { name: 'Signup', path: '/register' },]
 
 function Navbar() {
-    const user = useSelector((state) => state.auth)
+    const [user, setUser] = React.useState(null)
+
+    React.useEffect(() => {
+        onAuthStateChanged(auth, (userData) => {
+            if (userData) {
+                setUser(prev => userData)
+
+                // ...
+            } else {
+                setUser(prev => null)
+            }
+        });
+    }, [])
+
+
+
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -155,15 +175,24 @@ function Navbar() {
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
-                            {!user.id ? loginSettings.map((setting) => (
-                                <Link key={setting.name} to={setting.path}>
+                            {!user ? loginSettings.map((setting) => (
+                                <Link key={setting.name} to={setting.path === fireBaseAuth.signUserOut ? null : setting.path}>
                                     <MenuItem key={setting.name} onClick={handleCloseUserMenu}>
                                         <Typography textAlign="center" color={'black'}>{setting.name}</Typography>
                                     </MenuItem>
                                 </Link>
                             )) : settings.map((setting) => (
                                 <Link key={setting.name} to={setting.path}>
-                                    <MenuItem key={setting.name} onClick={handleCloseUserMenu}>
+                                    <MenuItem key={setting.name} onClick={(e) => {
+                                        if (setting.path === fireBaseAuth.signUserOut) {
+                                            fireBaseAuth.signUserOut(setUser)
+                                            handleCloseUserMenu()
+                                        } else {
+                                            handleCloseUserMenu()
+                                        }
+
+
+                                    }}>
                                         <Typography textAlign="center" color={'black'}>{setting.name}</Typography>
                                     </MenuItem>
                                 </Link>
@@ -173,7 +202,7 @@ function Navbar() {
                     </Box>
                 </Toolbar>
             </Container>
-        </AppBar>
+        </AppBar >
     );
 }
 export default Navbar;

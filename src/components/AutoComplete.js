@@ -6,7 +6,6 @@ export default function ComboBox({ label, array }) {
     return (
         <Autocomplete
             disablePortal
-
             options={array}
             fullWidth
             renderInput={(params) => <TextField id={label}
