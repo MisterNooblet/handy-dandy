@@ -2,14 +2,14 @@ import * as React from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 
-export default function ComboBox({ label, array }) {
+export default function ComboBox({ label, array, visibility, setCategory }) {
     return (
-        <Autocomplete
+        <Autocomplete sx={{ visibility: visibility }}
             disablePortal
             options={array}
             fullWidth
             renderInput={(params) => <TextField id={label}
-                name={label}{...params} label={label} />}
+                name={label}{...params} label={label} onChange={(e) => setCategory(prev => e.target.value)} />}
         />
     );
 }
