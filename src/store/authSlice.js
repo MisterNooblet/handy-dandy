@@ -1,5 +1,5 @@
-import { createSlice, configureStore } from "@reduxjs/toolkit";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { createSlice } from "@reduxjs/toolkit";
+// import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
 
 
@@ -27,10 +27,6 @@ const authSlice = createSlice({
     }
 })
 
-const store = configureStore({
-    reducer: { auth: authSlice.reducer }
-})
-
 
 export const authActions = authSlice.actions
-export default store;
+export default authSlice

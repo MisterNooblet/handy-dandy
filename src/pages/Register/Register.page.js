@@ -5,7 +5,6 @@ import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-// import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -14,14 +13,21 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
 import { validateEmail } from '../../utils/emailValidator';
+import AutoComplete from '../../components/AutoComplete'
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchCountries } from '../../store/apiSlice';
 
 
 
 const theme = createTheme();
 
 export default function Register() {
+    const api = useSelector((state) => state.api)
+    const dispatch = useDispatch()
+    React.useEffect(() => {
 
-
+        dispatch(fetchCountries())
+    }, [dispatch])
 
 
 
@@ -31,12 +37,15 @@ export default function Register() {
         const firstName = data.get('firstName')
         const lastName = data.get('lastName')
         const email = data.get('email')
+        const country = data.get('Country')
         const password = data.get('password')
         const password2 = data.get('password2')
+        //eslint-disable-next-line
         const allowPromotions = data.get('checkbox')
         const invalidMail = validateEmail(email)
         if (!invalidMail && password2 === password && password.length >= 8 && password2.length >= 8 && firstName.length > 0 && lastName.length > 0) {
             console.log('success');
+            console.log(country)
         }
     };
 
@@ -93,6 +102,9 @@ export default function Register() {
                                     name="email"
                                     autoComplete="email"
                                 />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <AutoComplete label={'Country'} array={api.countries} />
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
