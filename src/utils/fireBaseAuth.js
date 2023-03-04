@@ -5,22 +5,6 @@ import { db } from "./fireBaseConfig";
 
 
 const fireBaseAuth = {
-    // signUp(email, password, firstName, lastName, country) {
-    //     const auth = getAuth();
-    //     createUserWithEmailAndPassword(auth, email, password)
-    //         .then((userCredential) => {
-    //             // Signed in 
-    //             this.updateUser(firstName, lastName, country)
-    //             // ...
-    //         })
-    //         .catch((error) => {
-    //             // const errorCode = error.code;
-    //             // const errorMessage = error.message;
-    //             // ..
-    //         });
-
-    // },
-
     async signUp(email, password, firstName, lastName, country) {
         const auth = getAuth();
         try {

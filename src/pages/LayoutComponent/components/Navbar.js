@@ -47,7 +47,7 @@ function Navbar() {
     };
 
     return (
-        <AppBar position="static">
+        <AppBar position="static" sx={{ mb: '10px' }}>
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     <HandymanIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
