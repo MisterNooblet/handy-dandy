@@ -20,13 +20,24 @@ const theme = createTheme();
 
 export default function Login() {
     const navigate = useNavigate()
-    const handleSubmit = (event) => {
+
+    const [errorMsg, setErrorMsg] = React.useState(null)
+
+    const handleSubmit = async (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         const email = data.get('email')
         const password = data.get('password')
-        fireBaseAuth.signIn(email, password)
-        navigate('/')
+        const response = await fireBaseAuth.signIn(email, password)
+        if (response.uid !== undefined) {
+            navigate('/')
+        } else {
+            if (response.message.includes('password')) {
+                setErrorMsg({ message: 'You have entered a wrong password.', code: 2 })
+            } else {
+                setErrorMsg({ message: 'Email does not exist in our database.', code: 1 })
+            }
+        }
     };
 
     return (
@@ -45,7 +56,7 @@ export default function Login() {
                         <LockOutlinedIcon />
                     </Avatar>
                     <Typography component="h1" variant="h5">
-                        Sign in
+                        {errorMsg ? errorMsg.message : 'Sign in'}
                     </Typography>
                     <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
                         <TextField
@@ -57,6 +68,8 @@ export default function Login() {
                             name="email"
                             autoComplete="email"
                             autoFocus
+                            title='Please enter a valid Email : example@somedomain.com'
+                            sx={{ backgroundColor: errorMsg && errorMsg.code == 1 && 'rgba(245, 132, 132, 0.44)' }}
                         />
                         <TextField
                             margin="normal"
@@ -67,6 +80,7 @@ export default function Login() {
                             type="password"
                             id="password"
                             autoComplete="current-password"
+                            sx={{ backgroundColor: errorMsg && errorMsg.code == 2 && 'rgba(245, 132, 132, 0.44)' }}
                         />
                         <FormControlLabel
                             control={<Checkbox value="remember" color="primary" />}

@@ -13,9 +13,9 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import HandymanIcon from '@mui/icons-material/Handyman';
 import { Link, NavLink } from 'react-router-dom';
-import { onAuthStateChanged } from "firebase/auth";
 import fireBaseAuth from '../../../utils/fireBaseAuth';
-import { auth } from '../../../utils/fireBaseConfig';
+import { useSelector } from 'react-redux';
+
 
 
 
@@ -25,22 +25,8 @@ const settings = [{ name: 'Profile', path: '/profile' }, { name: 'Logout', path:
 const loginSettings = [{ name: 'Login', path: '/login' }, { name: 'Signup', path: '/register' },]
 
 function Navbar() {
-    const [user, setUser] = React.useState(null)
 
-    React.useEffect(() => {
-        onAuthStateChanged(auth, (userData) => {
-            if (userData) {
-                setUser(prev => userData)
-
-
-                // ...
-            } else {
-                setUser(prev => null)
-            }
-        });
-    }, [])
-
-
+    const user = useSelector((state) => state.auth)
 
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -119,6 +105,11 @@ function Navbar() {
                                     </MenuItem>
                                 </NavLink>
                             ))}
+                            {user.userExtras && user.userExtras.isAdmin ? <NavLink to={'/admin'}>
+                                <MenuItem onClick={handleCloseNavMenu}>
+                                    <Typography textAlign="center" color={'black'}>{'Admin'}</Typography>
+                                </MenuItem>
+                            </NavLink> : null}
                         </Menu>
                     </Box>
                     <HandymanIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
@@ -152,12 +143,20 @@ function Navbar() {
                                 </Button>
                             </NavLink>
                         ))}
+                        {user.userExtras && user.userExtras.isAdmin ? <NavLink to={'/admin'}>
+                            <Button
+                                onClick={handleCloseNavMenu}
+                                sx={{ my: 2, color: 'white', display: 'block' }}
+                            >
+                                {'Admin'}
+                            </Button>
+                        </NavLink> : null}
                     </Box>
 
                     <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <Avatar alt={user && user.displayName} src={user && user.photoURL ? user.photoURL : '/'} />
+                                <Avatar alt={user.user && user.user.displayName} src={user.user && user.user.photoURL ? user.user.photoURL : '/'} />
                             </IconButton>
                         </Tooltip>
                         <Menu
@@ -176,7 +175,7 @@ function Navbar() {
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
-                            {!user ? loginSettings.map((setting) => (
+                            {!user.user ? loginSettings.map((setting) => (
                                 <Link key={setting.name} to={setting.path === fireBaseAuth.signUserOut ? null : setting.path}>
                                     <MenuItem key={setting.name} onClick={handleCloseUserMenu}>
                                         <Typography textAlign="center" color={'black'}>{setting.name}</Typography>
@@ -186,7 +185,7 @@ function Navbar() {
                                 <Link key={setting.name} to={setting.path}>
                                     <MenuItem key={setting.name} onClick={(e) => {
                                         if (setting.path === fireBaseAuth.signUserOut) {
-                                            fireBaseAuth.signUserOut(setUser)
+                                            fireBaseAuth.signUserOut()
                                             handleCloseUserMenu()
                                         } else {
                                             handleCloseUserMenu()

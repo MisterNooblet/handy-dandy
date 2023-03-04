@@ -62,18 +62,34 @@ const fireBaseAuth = {
         }
     },
 
-    signIn(email, password) {
+    // signIn(email, password) {
+    //     const auth = getAuth();
+    //     signInWithEmailAndPassword(auth, email, password)
+    //         .then((userCredential) => {
+    //             return false
+    //         })
+    //         .catch((error) => {
+    //             const errorCode = error.code;
+    //             const errorMessage = error.message;
+    //             return { errorCode, errorMessage }
+    //         });
+    // },
+
+    async signIn(email, password) {
         const auth = getAuth();
-        signInWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                // Signed in 
-                // ...
-            })
-            .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                console.log(errorCode, errorMessage);
-            });
+        try {
+            const response = await signInWithEmailAndPassword(auth, email, password)
+            const result = response.user
+            return result
+
+
+        } catch (error) {
+            const code = error.code
+            const message = error.message
+            // console.log(error.code);
+            // console.log(error.message);
+            return { code, message }
+        }
     },
 
     signUserOut() {

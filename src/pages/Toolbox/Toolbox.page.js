@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 
 const Toolbox = () => {
     const user = useSelector((state) => state.auth)
-    console.log(user.user);
+    console.log(user.userExtras);
 
     if (!user.user) {
         return (
@@ -11,7 +11,9 @@ const Toolbox = () => {
         )
     } else {
         return (
-            <div>Toolbox</div>
+            <>
+                {user.userExtras.toolbox.length === 0 ? <div>Toolbox empty</div> : <div>Toolbox</div>}
+            </>
         )
     }
 }
