@@ -1,6 +1,9 @@
 import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, signOut, updateProfile } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "./fireBaseConfig";
+
+
+
 const fireBaseAuth = {
     signUp(email, password, firstName, lastName, country) {
         const auth = getAuth();
@@ -24,18 +27,39 @@ const fireBaseAuth = {
             displayName: `${firstName} ${lastName}`
         }).then(() => {
             // Profile updated!
-            this.addToolBox(country, auth.currentUser.uid)
+            this.addExtraInfo(country, auth.currentUser.uid)
+
             // ...
         }).catch((error) => {
             // An error occurred
             // ...
         });
     },
-    async addToolBox(country, uid) {
+    async addExtraInfo(country, uid) {
         await setDoc(doc(db, `users`, uid), {
             country: country,
             toolbox: [],
+            isAdmin: false
         });
+        this.signUserOut()
+
+    },
+    async updateExtraInfo(uid, toolbox, country) {
+        if (country && toolbox) {
+            await updateDoc(doc(db, `users`, uid), {
+                country: country,
+                toolbox: toolbox,
+
+            });
+        } else if (country) {
+            await updateDoc(doc(db, `users`, uid), {
+                country: country,
+            });
+        } else if (toolbox) {
+            await updateDoc(doc(db, `users`, uid), {
+                toolbox: toolbox,
+            });
+        }
     },
 
     signIn(email, password) {
@@ -46,15 +70,16 @@ const fireBaseAuth = {
                 // ...
             })
             .catch((error) => {
-                // const errorCode = error.code;
-                // const errorMessage = error.message;
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                console.log(errorCode, errorMessage);
             });
     },
 
-    signUserOut(setUser) {
+    signUserOut() {
         const auth = getAuth();
         signOut(auth).then(() => {
-            setUser(prev => null)
+            //userLogged out
         }).catch((error) => {
             // An error happened.
         });

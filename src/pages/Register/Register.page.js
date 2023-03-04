@@ -47,7 +47,7 @@ export default function Register() {
         const invalidMail = validateEmail(email)
         if (!invalidMail && password2 === password && password.length >= 8 && password2.length >= 8 && firstName.length > 0 && lastName.length > 0) {
             fireBaseAuth.signUp(email, password, firstName, lastName, country)
-            navigate('/')
+            navigate('/login')
         };
 
     }

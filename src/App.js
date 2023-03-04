@@ -4,8 +4,9 @@ import { createBrowserRouter } from "react-router-dom";
 import { Error404, Home, LayoutComponent, Toolbox, Wiki, Register, Login, Profile } from "./pages/";
 import { onAuthStateChanged } from "firebase/auth";
 import { useEffect } from "react";
-import { auth } from "./utils/fireBaseConfig";
-import { login, logout } from "./store/authSlice";
+import { auth, db } from "./utils/fireBaseConfig";
+import { login, logout, updateUser } from "./store/authSlice";
+import { doc, getDoc, } from "firebase/firestore";
 
 function App() {
   const user = useSelector((state) => state.auth)
@@ -30,7 +31,28 @@ function App() {
     // eslint-disable-next-line
   }, []);
 
+  const getUserDetails = async () => {
+    const docRef = doc(db, 'users', user.user.uid)
+    const docSnap = await getDoc(docRef)
+    if (docSnap.exists()) {
+      dispatch(
+        updateUser({
+          country: docSnap.data().country,
+          isAdmin: docSnap.data().isAdmin,
+          toolbox: docSnap.data().toolbox
+        })
+      );
+    } else {
+      // doc.data() will be undefined in this case
+      console.log("No such document!");
+    }
+  }
 
+  useEffect(() => {
+    if (user.user) {
+      getUserDetails()
+    }
+  }, [user.user])
 
   const router = createBrowserRouter([
     {
