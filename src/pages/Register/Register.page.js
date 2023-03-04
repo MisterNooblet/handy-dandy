@@ -23,6 +23,9 @@ import fireBaseAuth from '../../utils/fireBaseAuth';
 const theme = createTheme();
 
 export default function Register() {
+    const [errorMsg, setErroMsg] = React.useState(null)
+
+
     const navigate = useNavigate()
     const api = useSelector((state) => state.api)
     const dispatch = useDispatch()
@@ -33,7 +36,7 @@ export default function Register() {
 
 
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         const firstName = data.get('firstName')
@@ -46,9 +49,24 @@ export default function Register() {
         const allowPromotions = data.get('checkbox')
         const invalidMail = validateEmail(email)
         if (!invalidMail && password2 === password && password.length >= 8 && password2.length >= 8 && firstName.length > 0 && lastName.length > 0) {
-            fireBaseAuth.signUp(email, password, firstName, lastName, country)
-            navigate('/login')
-        };
+            const result = await fireBaseAuth.signUp(email, password, firstName, lastName, country)
+            if (result.uid !== undefined) {
+                navigate('/login')
+            } else {
+                setErroMsg({ message: 'Email already exists in our database', code: 3 })
+            }
+
+        } else if (firstName.length === 0) {
+            setErroMsg({ message: 'Please enter a first name', code: 1 })
+        } else if (lastName.length === 0) {
+            setErroMsg({ message: 'Please enter a last name', code: 2 })
+        } else if (invalidMail) {
+            setErroMsg({ message: 'Please enter a valid email', code: 3 })
+        } else if (password.length <= 8) {
+            setErroMsg({ message: 'Password too short enter atleast 8 characters', code: 4 })
+        } else if (password !== password2) {
+            setErroMsg({ message: 'Wrong password confirmation entered', code: 5 })
+        }
 
     }
 
@@ -69,7 +87,7 @@ export default function Register() {
                         <LockOutlinedIcon />
                     </Avatar>
                     <Typography component="h1" variant="h5">
-                        Sign up
+                        {errorMsg ? errorMsg.message : 'Sign up'}
                     </Typography>
                     <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
                         <Grid container spacing={2}>
@@ -82,6 +100,8 @@ export default function Register() {
                                     id="firstName"
                                     label="First Name"
                                     autoFocus
+                                    title='Please enter your First name'
+                                    sx={{ backgroundColor: errorMsg && errorMsg.code === 1 && 'rgba(245, 132, 132, 0.44)' }}
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
@@ -92,6 +112,8 @@ export default function Register() {
                                     label="Last Name"
                                     name="lastName"
                                     autoComplete="family-name"
+                                    title='Please enter your Last name'
+                                    sx={{ backgroundColor: errorMsg && errorMsg.code === 2 && 'rgba(245, 132, 132, 0.44)' }}
                                 />
                             </Grid>
                             <Grid item xs={12}>
@@ -102,10 +124,12 @@ export default function Register() {
                                     label="Email Address"
                                     name="email"
                                     autoComplete="email"
+                                    title='Please enter a valid Email : example@somedomain.com'
+                                    sx={{ backgroundColor: errorMsg && errorMsg.code === 3 && 'rgba(245, 132, 132, 0.44)' }}
                                 />
                             </Grid>
                             <Grid item xs={12}>
-                                <AutoComplete label={'Country'} array={api.countries} />
+                                <AutoComplete label={'Country'} array={api.countries} title={'Please select your contry of residence from the list below'} />
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
@@ -116,6 +140,8 @@ export default function Register() {
                                     type="password"
                                     id="password"
                                     autoComplete="new-password"
+                                    title='Please enter a password atleast 8 characters long'
+                                    sx={{ backgroundColor: errorMsg && errorMsg.code === 4 && 'rgba(245, 132, 132, 0.44)' }}
                                 />
                             </Grid>
                             <Grid item xs={12}>
@@ -127,6 +153,8 @@ export default function Register() {
                                     type="password"
                                     id="password2"
                                     autoComplete="new-password"
+                                    title='Please confirm your password'
+                                    sx={{ backgroundColor: errorMsg && errorMsg.code === 5 && 'rgba(245, 132, 132, 0.44)' }}
                                 />
                             </Grid>
                             <Grid item xs={12}>

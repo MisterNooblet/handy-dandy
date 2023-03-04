@@ -5,19 +5,33 @@ import { db } from "./fireBaseConfig";
 
 
 const fireBaseAuth = {
-    signUp(email, password, firstName, lastName, country) {
+    // signUp(email, password, firstName, lastName, country) {
+    //     const auth = getAuth();
+    //     createUserWithEmailAndPassword(auth, email, password)
+    //         .then((userCredential) => {
+    //             // Signed in 
+    //             this.updateUser(firstName, lastName, country)
+    //             // ...
+    //         })
+    //         .catch((error) => {
+    //             // const errorCode = error.code;
+    //             // const errorMessage = error.message;
+    //             // ..
+    //         });
+
+    // },
+
+    async signUp(email, password, firstName, lastName, country) {
         const auth = getAuth();
-        createUserWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                // Signed in 
-                this.updateUser(firstName, lastName, country)
-                // ...
-            })
-            .catch((error) => {
-                // const errorCode = error.code;
-                // const errorMessage = error.message;
-                // ..
-            });
+        try {
+            const response = await createUserWithEmailAndPassword(auth, email, password)
+            const result = response.user
+            return result
+        } catch (error) {
+            const code = error.code
+            const message = error.message
+            return { code, message }
+        }
 
     },
 
@@ -62,19 +76,6 @@ const fireBaseAuth = {
         }
     },
 
-    // signIn(email, password) {
-    //     const auth = getAuth();
-    //     signInWithEmailAndPassword(auth, email, password)
-    //         .then((userCredential) => {
-    //             return false
-    //         })
-    //         .catch((error) => {
-    //             const errorCode = error.code;
-    //             const errorMessage = error.message;
-    //             return { errorCode, errorMessage }
-    //         });
-    // },
-
     async signIn(email, password) {
         const auth = getAuth();
         try {
@@ -86,8 +87,6 @@ const fireBaseAuth = {
         } catch (error) {
             const code = error.code
             const message = error.message
-            // console.log(error.code);
-            // console.log(error.message);
             return { code, message }
         }
     },
