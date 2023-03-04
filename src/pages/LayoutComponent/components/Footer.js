@@ -4,10 +4,10 @@ import { Link } from 'react-router-dom';
 
 function Copyright(props) {
     return (
-        <Typography variant="body2" color="text.secondary" sx={{ display: 'inline' }} {...props}>
+        <Typography variant="body2" component='div' color="text.secondary" sx={{ display: 'inline' }} {...props}>
             {'Copyright © '}
             <Link to={'/'}>
-                <Typography sx={{ display: 'inline' }} color={'black'}>Handy Dandy</Typography>
+                <Typography sx={{ display: 'inline' }} color={'black'} >Handy Dandy</Typography>
             </Link>{' '}
             {new Date().getFullYear()}
             {'.'}

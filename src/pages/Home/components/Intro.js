@@ -10,7 +10,7 @@ import image from '../assets/logo.png';
 const Intro = () => {
   return (
     <>
-      <Card fullWidth>
+      <Card fullwidth='true'>
         <CardMedia
           component="img"
           alt="green iguana"

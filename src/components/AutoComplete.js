@@ -7,7 +7,7 @@ export default function ComboBox({ label, array, visibility, setCategory }) {
         <Autocomplete sx={{ visibility: visibility }}
             disablePortal
             options={array}
-            fullWidth
+            fullwidth='true'
             renderInput={(params) => <TextField id={label}
                 name={label}{...params} label={label} onChange={(e) => setCategory(prev => e.target.value)} />}
         />
