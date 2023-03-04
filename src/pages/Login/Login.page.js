@@ -69,7 +69,7 @@ export default function Login() {
                             autoComplete="email"
                             autoFocus
                             title='Please enter a valid Email : example@somedomain.com'
-                            sx={{ backgroundColor: errorMsg && errorMsg.code == 1 && 'rgba(245, 132, 132, 0.44)' }}
+                            sx={{ backgroundColor: errorMsg && errorMsg.code === 1 && 'rgba(245, 132, 132, 0.44)' }}
                         />
                         <TextField
                             margin="normal"
@@ -80,7 +80,7 @@ export default function Login() {
                             type="password"
                             id="password"
                             autoComplete="current-password"
-                            sx={{ backgroundColor: errorMsg && errorMsg.code == 2 && 'rgba(245, 132, 132, 0.44)' }}
+                            sx={{ backgroundColor: errorMsg && errorMsg.code === 2 && 'rgba(245, 132, 132, 0.44)' }}
                         />
                         <FormControlLabel
                             control={<Checkbox value="remember" color="primary" />}
