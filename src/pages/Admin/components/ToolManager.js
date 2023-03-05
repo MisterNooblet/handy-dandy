@@ -29,6 +29,11 @@ function reducer(state, action) {
             ...state,
             subCategories: action.subCategories
         };
+    } else if (action.type === 'setCategory') {
+        return {
+            ...state,
+            currentCategory: action.category
+        }
     }
     throw Error('Unknown action.');
 }
@@ -59,7 +64,6 @@ const ToolManager = () => {
 
         if (docSnap.exists()) {
             const subCategoryObject = docSnap.data()
-            console.log(subCategoryObject);
             for (const prop in subCategoryObject) {
                 subCategoryList.push(prop)
             }
@@ -142,7 +146,7 @@ const ToolManager = () => {
                 <FormControl fullWidth>
 
                     <NativeSelect
-                        // defaultValue={'handTools'}
+                        onChange={(e) => { dispatch({ type: 'setCategory', category: e.target.value }) }}
                         inputProps={{
                             name: 'toolCategory',
                             id: 'toolCategory',
@@ -156,7 +160,7 @@ const ToolManager = () => {
                 <FormControl fullWidth>
 
                     <NativeSelect
-                        defaultValue={'handTools'}
+
                         inputProps={{
                             name: 'toolSubCategory',
                             id: 'toolSubCategory',
