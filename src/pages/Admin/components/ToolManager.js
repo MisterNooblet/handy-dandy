@@ -16,6 +16,13 @@ const initialState = {
     subCategories: null
 }
 
+const formInitialState = {
+    title: '',
+    properties: '',
+    description: '',
+    file: null,
+    imageSrc: null,
+}
 
 function reducer(state, action) {
     if (action.type === 'setCategories') {
@@ -37,15 +44,43 @@ function reducer(state, action) {
     }
     throw Error('Unknown action.');
 }
-
+function formReducer(state, action) {
+    console.log(action);
+    if (action.type === 'updateTitle') {
+        return {
+            ...state,
+            title: action.value,
+        };
+    } else if (action.type === 'updateProps') {
+        return {
+            ...state,
+            properties: action.value
+        };
+    } else if (action.type === 'updateDescription') {
+        return {
+            ...state,
+            description: action.value
+        };
+    } else if (action.type === 'updateFile') {
+        return {
+            ...state,
+            file: action.value
+        }
+    } else if (action.type === 'updateImageSrc') {
+        return {
+            ...state,
+            imageSrc: action.value
+        }
+    } else if (action.type === 'clearForm') {
+        return { ...formInitialState }
+    }
+    throw Error('Unknown action.');
+}
 
 const ToolManager = () => {
     const [categories, dispatch] = useReducer(reducer, initialState)
-
-    // const [categories, setCategories] = useState(null)
+    const [formData, formDispatch] = useReducer(formReducer, formInitialState)
     const [percent, setPercent] = useState(0)
-    const [file, setFile] = useState(null)
-    const [imageSrc, setImageSrc] = useState(null)
 
     const getToolCategories = async () => {
         const categoryIds = []
@@ -54,7 +89,6 @@ const ToolManager = () => {
             categoryIds.push(doc.id)
         })
         dispatch({ type: 'setCategories', categories: categoryIds })
-        // setCategories(categoryIds)
     }
 
     const getToolSubCategories = async () => {
@@ -71,7 +105,7 @@ const ToolManager = () => {
             // doc.data() will be undefined in this case
             console.log("No such document!");
         }
-        dispatch({ type: 'setSubCategories', subCategories: subCategoryList })
+        dispatch({ type: 'setSubCategories', subCategories: subCategoryList.sort() })
     }
 
     useEffect(() => {
@@ -85,17 +119,19 @@ const ToolManager = () => {
     }, [categories.currentCategory])
 
     function handleFileChange(event) {
-        setFile(event.target.files[0]);
+        const file = event.target.files[0]
+        formDispatch({ type: 'updateFile', value: file })
+        // setFile(event.target.files[0]);
     }
 
 
     const handleUpload = () => {
 
-        const storageRef = ref(storage, `/toolimages/${Math.random()}${file.name}`);
+        const storageRef = ref(storage, `/toolimages/${Math.random()}${formData.file.name}`);
 
         // progress can be paused and resumed. It also exposes progress updates.
         // Receives the storage reference and the file to upload.
-        const uploadTask = uploadBytesResumable(storageRef, file);
+        const uploadTask = uploadBytesResumable(storageRef, formData.file);
 
         uploadTask.on(
             "state_changed",
@@ -111,7 +147,8 @@ const ToolManager = () => {
             () => {
                 // download url
                 getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-                    setImageSrc(url)
+                    formDispatch({ type: 'updateImageSrc', value: url })
+                    // setImageSrc(url)
                 });
             }
         );
@@ -120,9 +157,10 @@ const ToolManager = () => {
     const addNewTool = async (category, subCategory, tool) => {
         const toolCatRef = doc(db, 'tools', category);
 
-        await updateDoc(toolCatRef, {
+        const response = await updateDoc(toolCatRef, {
             [subCategory]: arrayUnion({ ...tool })
         });
+        console.log(response);
     }
 
     const handleAddTool = (event) => {
@@ -132,11 +170,13 @@ const ToolManager = () => {
         const subCategory = data.get('toolSubCategory')
         const toolTitle = data.get('toolTitle')
         const toolProps = data.get('toolProps').split('|').map(str => str.trim())
-        const imageFile = imageSrc
+        const imageFile = formData.imageSrc
         const shortDescription = data.get('shortDescription')
         const toolObj = { name: toolTitle, description: shortDescription, image: imageFile, props: toolProps, category: category, subCategory: subCategory }
         if (category && subCategory && toolTitle && toolProps.length > 0 && imageFile && shortDescription) {
             addNewTool(category, subCategory, toolObj)
+            formDispatch({ type: 'clearForm' })
+            setPercent(0)
         }
     }
 
@@ -173,12 +213,13 @@ const ToolManager = () => {
             <TextField inputProps={{
                 name: 'toolTitle',
                 id: 'toolTitle',
-            }} label="Tool Title" variant="standard" />
-            <TextField id="toolProps" name='toolProps' label="Tool properties seperated by | ex: Good grip | Sturdy" variant="standard" placeholder='' />
+            }} label="Tool Title" variant="standard" value={formData.title} onChange={(e) => formDispatch({ type: 'updateTitle', value: e.target.value })} />
+            <TextField id="toolProps" name='toolProps' label="Tool properties seperated by | ex: Good grip | Sturdy" variant="standard" value={formData.properties} onChange={(e) => formDispatch({ type: 'updateProps', value: e.target.value })} />
             <Input type='file' id='imageFile' name='imageFile' onChange={handleFileChange} />
             {percent > 0 && <ProgressBar value={percent} />}
-            {file && <><Button onClick={handleUpload} type='button'>Upload image</Button></>}
+            {formData.file && <><Button onClick={handleUpload} type='button'>Upload image</Button></>}
             <TextareaAutosize
+                value={formData.description} onChange={(e) => formDispatch({ type: 'updateDescription', value: e.target.value })}
                 aria-label="minimum height"
                 minRows={3}
                 placeholder="Short Description"
