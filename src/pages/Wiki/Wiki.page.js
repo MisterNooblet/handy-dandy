@@ -1,9 +1,5 @@
 import * as React from 'react';
-import Button from '@mui/material/Button';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
+
 import CssBaseline from '@mui/material/CssBaseline';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
@@ -11,7 +7,8 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import CardBox from './components/CardBox';
 
 const cards = [
   {
@@ -36,7 +33,7 @@ const introString =
 const theme = createTheme();
 
 export default function Wiki() {
-  const { category, subcategories, item } = useParams();
+  const params = useParams();
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -57,14 +54,14 @@ export default function Wiki() {
               color="text.primary"
               gutterBottom
             >
-              {!category
+              {!params.category
                 ? 'Our Tool-O-Pedia'
-                : item
-                ? item
-                : subcategories
-                ? subcategories
-                : category
-                ? category
+                : params.item
+                ? params.item
+                : params.subcategories
+                ? params.subcategories
+                : params.category
+                ? params.category
                 : 'Something went wrong'}
             </Typography>
             <Typography
@@ -73,7 +70,7 @@ export default function Wiki() {
               color="text.secondary"
               paragraph
             >
-              {!category && introString}
+              {!params.category && introString}
             </Typography>
             <Stack
               sx={{ pt: 4 }}
@@ -92,40 +89,10 @@ export default function Wiki() {
             container
             sx={{ display: 'flex', justifyContent: 'space-around' }}
           >
-            {category === undefined &&
-              cards.map((card) => (
-                <Grid item key={card.title} xs={12} sm={6} md={4}>
-                  <Card
-                    sx={{
-                      height: '100%',
-                      display: 'flex',
-                      flexDirection: 'column',
-                    }}
-                  >
-                    <CardMedia
-                      component="img"
-                      sx={{
-                        // 16:9
-                        pt: '0',
-                      }}
-                      image={card.image}
-                      alt={card.title}
-                    />
-                    <CardContent sx={{ flexGrow: 1 }}>
-                      <Typography gutterBottom variant="h5" component="h2">
-                        {card.title}
-                      </Typography>
-                      <Typography>{card.description}</Typography>
-                    </CardContent>
-                    <CardActions>
-                      <Link to={`${card.title.toLowerCase()}`}>
-                        <Button size="small">View</Button>
-                      </Link>
-                      {item && <Button size="small">Edit</Button>}
-                    </CardActions>
-                  </Card>
-                </Grid>
-              ))}
+            {!params.category && <CardBox array={cards} />}
+            {params.item && null}
+            {params.subcategories && <CardBox params={params} />}
+            {params.category && <CardBox params={params} />}
           </Grid>
         </Container>
       </>
