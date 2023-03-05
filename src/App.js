@@ -14,6 +14,9 @@ function App() {
       children: [
         { path: '/', element: <Home /> },
         { path: '/wiki', element: <Wiki /> },
+        { path: '/wiki/:category', element: <Wiki /> },
+        { path: '/wiki/:category/subCategories/:subcategories', element: <Wiki /> },
+        { path: '/wiki/:category/subCategories/:subcategories/article/:item', element: <Wiki /> },
         { path: '/toolbox', element: <Toolbox /> },
         { path: '/register', element: <Register /> },
         { path: '/login', element: <Login /> },

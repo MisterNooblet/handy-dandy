@@ -11,6 +11,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { Link, useParams } from 'react-router-dom';
 
 const cards = [
   {
@@ -18,20 +19,24 @@ const cards = [
     description:
       'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Veritatis cupiditate voluptatum reiciendis ipsa in impedit possimus nostrum iure autem incidunt?',
     image:
-      'https://www.structuralguide.com/wp-content/uploads/2022/01/Construction-Materials.jpg',
+      'https://www.letsbuild.com/wp-content/uploads/2017/06/tools-864983_1280.jpg',
   },
   {
     title: 'Materials',
     description:
       'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Veritatis cupiditate voluptatum reiciendis ipsa in impedit possimus nostrum iure autem incidunt?',
     image:
-      'https://www.letsbuild.com/wp-content/uploads/2017/06/tools-864983_1280.jpg',
+      'https://www.structuralguide.com/wp-content/uploads/2022/01/Construction-Materials.jpg',
   },
 ];
+
+const introString =
+  'Here you will find information about diffrent tools and materials mentioned around in our application and articles. So go ahead and select a category below , to start exploring.';
 
 const theme = createTheme();
 
 export default function Wiki() {
+  const { category, subcategories, item } = useParams();
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -52,7 +57,15 @@ export default function Wiki() {
               color="text.primary"
               gutterBottom
             >
-              Our Tool-O-Pedia
+              {!category
+                ? 'Our Tool-O-Pedia'
+                : item
+                ? item
+                : subcategories
+                ? subcategories
+                : category
+                ? category
+                : 'Something went wrong'}
             </Typography>
             <Typography
               variant="h5"
@@ -60,9 +73,7 @@ export default function Wiki() {
               color="text.secondary"
               paragraph
             >
-              Here you will find information about diffrent tools and materials
-              mentioned around in our application and articles. So go ahead and
-              select a category below , to start exploring.
+              {!category && introString}
             </Typography>
             <Stack
               sx={{ pt: 4 }}
@@ -81,37 +92,40 @@ export default function Wiki() {
             container
             sx={{ display: 'flex', justifyContent: 'space-around' }}
           >
-            {cards.map((card) => (
-              <Grid item key={card.title} xs={12} sm={6} md={4}>
-                <Card
-                  sx={{
-                    height: '100%',
-                    display: 'flex',
-                    flexDirection: 'column',
-                  }}
-                >
-                  <CardMedia
-                    component="img"
+            {category === undefined &&
+              cards.map((card) => (
+                <Grid item key={card.title} xs={12} sm={6} md={4}>
+                  <Card
                     sx={{
-                      // 16:9
-                      pt: '10.25%',
+                      height: '100%',
+                      display: 'flex',
+                      flexDirection: 'column',
                     }}
-                    image={card.image}
-                    alt={card.title}
-                  />
-                  <CardContent sx={{ flexGrow: 1 }}>
-                    <Typography gutterBottom variant="h5" component="h2">
-                      {card.title}
-                    </Typography>
-                    <Typography>{card.description}</Typography>
-                  </CardContent>
-                  <CardActions>
-                    <Button size="small">View</Button>
-                    <Button size="small">Edit</Button>
-                  </CardActions>
-                </Card>
-              </Grid>
-            ))}
+                  >
+                    <CardMedia
+                      component="img"
+                      sx={{
+                        // 16:9
+                        pt: '0',
+                      }}
+                      image={card.image}
+                      alt={card.title}
+                    />
+                    <CardContent sx={{ flexGrow: 1 }}>
+                      <Typography gutterBottom variant="h5" component="h2">
+                        {card.title}
+                      </Typography>
+                      <Typography>{card.description}</Typography>
+                    </CardContent>
+                    <CardActions>
+                      <Link to={`${card.title.toLowerCase()}`}>
+                        <Button size="small">View</Button>
+                      </Link>
+                      {item && <Button size="small">Edit</Button>}
+                    </CardActions>
+                  </Card>
+                </Grid>
+              ))}
           </Grid>
         </Container>
       </>
