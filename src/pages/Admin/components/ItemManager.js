@@ -45,7 +45,6 @@ function reducer(state, action) {
     throw Error('Unknown action.');
 }
 function formReducer(state, action) {
-    console.log(action);
     if (action.type === 'updateTitle') {
         return {
             ...state,
@@ -77,23 +76,23 @@ function formReducer(state, action) {
     throw Error('Unknown action.');
 }
 
-const ToolManager = () => {
+const ItemManager = ({ type }) => {
     const [categories, dispatch] = useReducer(reducer, initialState)
     const [formData, formDispatch] = useReducer(formReducer, formInitialState)
     const [percent, setPercent] = useState(0)
 
-    const getToolCategories = async () => {
+    const getItemCategories = async () => {
         const categoryIds = []
-        const querySnapshot = await getDocs(collection(db, "tools"));
+        const querySnapshot = await getDocs(collection(db, `${type}s`));
         querySnapshot.forEach((doc) => {
             categoryIds.push(doc.id)
         })
         dispatch({ type: 'setCategories', categories: categoryIds })
     }
 
-    const getToolSubCategories = async () => {
+    const getItemSubCategories = async () => {
         let subCategoryList = []
-        const docRef = doc(db, 'tools', categories.currentCategory)
+        const docRef = doc(db, `${type}s`, categories.currentCategory)
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
@@ -108,12 +107,17 @@ const ToolManager = () => {
     }
 
     useEffect(() => {
-        getToolCategories()
+        getItemCategories()
         //eslint-disable-next-line
     }, [])
 
     useEffect(() => {
-        getToolSubCategories()
+        getItemCategories()
+        //eslint-disable-next-line
+    }, [type])
+
+    useEffect(() => {
+        getItemSubCategories()
         //eslint-disable-next-line
     }, [categories.currentCategory])
 
@@ -125,7 +129,7 @@ const ToolManager = () => {
 
 
     const handleUpload = () => {
-        const storageRef = ref(storage, `/toolimages/${Math.random()}${formData.file.name}`);
+        const storageRef = ref(storage, `/${type}images/${Math.random()}${formData.file.name}`);
 
         const uploadTask = uploadBytesResumable(storageRef, formData.file);
 
@@ -144,41 +148,40 @@ const ToolManager = () => {
         );
     };
 
-    const addNewTool = async (category, subCategory, tool) => {
-        const toolCatRef = doc(db, 'tools', category);
+    const addNewItem = async (category, subCategory, tool) => {
+        const toolCatRef = doc(db, `${type}s`, category);
 
         await updateDoc(toolCatRef, {
             [subCategory]: arrayUnion({ ...tool })
         });
     }
 
-    const handleAddTool = (event) => {
+    const handleAddItem = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        const category = data.get('toolCategory')
-        const subCategory = data.get('toolSubCategory')
-        const toolTitle = data.get('toolTitle')
-        const toolProps = data.get('toolProps').split('|').map(str => str.trim())
+        const category = data.get('itemCategory')
+        const subCategory = data.get('itemSubCategory')
+        const itemTitle = data.get('itemTitle')
+        const itemProps = data.get('itemProps').split('|').map(str => str.trim())
         const imageFile = formData.imageSrc
         const shortDescription = data.get('shortDescription')
-        const toolObj = { name: toolTitle, description: shortDescription, image: imageFile, props: toolProps, category: category, subCategory: subCategory }
-        if (category && subCategory && toolTitle && toolProps.length > 0 && imageFile && shortDescription) {
-            addNewTool(category, subCategory, toolObj)
+        const toolObj = { name: itemTitle, description: shortDescription, image: imageFile, props: itemProps, category: category, subCategory: subCategory }
+        if (category && subCategory && itemTitle && itemProps.length > 0 && imageFile && shortDescription) {
+            addNewItem(category, subCategory, toolObj)
             formDispatch({ type: 'clearForm' })
             setPercent(0)
         }
     }
 
     return (
-        <Box component='form' noValidate onSubmit={handleAddTool} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-around', width: { sm: '100%', md: '60%', lg: '50%' } }}>
+        <Box component='form' noValidate onSubmit={handleAddItem} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-around', width: { sm: '100%', md: '60%', lg: '50%' } }}>
             <Box sx={{ minWidth: 120 }}>
                 <FormControl fullWidth>
-
                     <NativeSelect
                         onChange={(e) => { dispatch({ type: 'setCategory', category: e.target.value }) }}
                         inputProps={{
-                            name: 'toolCategory',
-                            id: 'toolCategory',
+                            name: 'itemCategory',
+                            id: 'itemCategory',
                         }}
                     >
                         {categories.categories && categories.categories.map(cat => <option value={cat}>{cat.replace(/([a-z0-9])([A-Z])/g, '$1 $2')}</option>)}
@@ -187,12 +190,11 @@ const ToolManager = () => {
             </Box>
             <Box sx={{ minWidth: 120 }}>
                 <FormControl fullWidth>
-
                     <NativeSelect
 
                         inputProps={{
-                            name: 'toolSubCategory',
-                            id: 'toolSubCategory',
+                            name: 'itemSubCategory',
+                            id: 'itemSubCategory',
                         }}
                     >
                         {categories.subCategories && categories.subCategories.map(cat => <option value={cat}>{cat.replace(/([a-z0-9])([A-Z])/g, '$1 $2')}</option>)}
@@ -200,10 +202,10 @@ const ToolManager = () => {
                 </FormControl>
             </Box>
             <TextField inputProps={{
-                name: 'toolTitle',
-                id: 'toolTitle',
-            }} label="Tool Title" variant="standard" value={formData.title} onChange={(e) => formDispatch({ type: 'updateTitle', value: e.target.value })} />
-            <TextField id="toolProps" name='toolProps' label="Tool properties seperated by | ex: Good grip | Sturdy" variant="standard" value={formData.properties} onChange={(e) => formDispatch({ type: 'updateProps', value: e.target.value })} />
+                name: 'itemTitle',
+                id: 'itemTitle',
+            }} label={`${type} Title`} variant="standard" value={formData.title} onChange={(e) => formDispatch({ type: 'updateTitle', value: e.target.value })} />
+            <TextField id="itemProps" name='itemProps' label={`${type} properties seperated by | ex: Good grip | Sturdy`} variant="standard" value={formData.properties} onChange={(e) => formDispatch({ type: 'updateProps', value: e.target.value })} />
             <Input type='file' id='imageFile' name='imageFile' onChange={handleFileChange} />
             {percent > 0 && <ProgressBar value={percent} />}
             {formData.file && <><Button onClick={handleUpload} type='button'>Upload image</Button></>}
@@ -216,10 +218,9 @@ const ToolManager = () => {
                 id='shortDescription'
                 name='shortDescription'
             />
-            <Button type='submit' disabled={percent !== 100 && true}>Add Tool</Button>
-
+            <Button type='submit' disabled={percent !== 100 && true}>Add {type}</Button>
         </Box>
     )
 }
 
-export default ToolManager
+export default ItemManager
