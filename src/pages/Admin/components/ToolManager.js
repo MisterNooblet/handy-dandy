@@ -92,9 +92,9 @@ const ToolManager = () => {
     }
 
     const getToolSubCategories = async () => {
+        let subCategoryList = []
         const docRef = doc(db, 'tools', categories.currentCategory)
         const docSnap = await getDoc(docRef);
-        let subCategoryList = []
 
         if (docSnap.exists()) {
             const subCategoryObject = docSnap.data()
@@ -102,7 +102,6 @@ const ToolManager = () => {
                 subCategoryList.push(prop)
             }
         } else {
-            // doc.data() will be undefined in this case
             console.log("No such document!");
         }
         dispatch({ type: 'setSubCategories', subCategories: subCategoryList.sort() })
@@ -120,17 +119,14 @@ const ToolManager = () => {
 
     function handleFileChange(event) {
         const file = event.target.files[0]
+
         formDispatch({ type: 'updateFile', value: file })
-        // setFile(event.target.files[0]);
     }
 
 
     const handleUpload = () => {
-
         const storageRef = ref(storage, `/toolimages/${Math.random()}${formData.file.name}`);
 
-        // progress can be paused and resumed. It also exposes progress updates.
-        // Receives the storage reference and the file to upload.
         const uploadTask = uploadBytesResumable(storageRef, formData.file);
 
         uploadTask.on(
@@ -139,17 +135,11 @@ const ToolManager = () => {
                 const percent = Math.round(
                     (snapshot.bytesTransferred / snapshot.totalBytes) * 100
                 );
-
-                // update progress
                 setPercent(percent);
             },
             (err) => console.log(err),
             () => {
-                // download url
-                getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-                    formDispatch({ type: 'updateImageSrc', value: url })
-                    // setImageSrc(url)
-                });
+                getDownloadURL(uploadTask.snapshot.ref).then((url) => { formDispatch({ type: 'updateImageSrc', value: url }) });
             }
         );
     };
@@ -157,10 +147,9 @@ const ToolManager = () => {
     const addNewTool = async (category, subCategory, tool) => {
         const toolCatRef = doc(db, 'tools', category);
 
-        const response = await updateDoc(toolCatRef, {
+        await updateDoc(toolCatRef, {
             [subCategory]: arrayUnion({ ...tool })
         });
-        console.log(response);
     }
 
     const handleAddTool = (event) => {
