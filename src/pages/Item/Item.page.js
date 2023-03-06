@@ -2,6 +2,7 @@ import { doc, getDoc } from 'firebase/firestore'
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { db } from '../../utils/fireBaseConfig'
+import ItemCard from './components/ItemCard'
 
 const Item = () => {
     const [item, setItem] = useState(null)
@@ -37,17 +38,18 @@ const Item = () => {
                     })
                 }
             }
-            console.log(item);
+
         } else {
             console.log("No such document!");
         }
-
+        console.log(item);
     }
 
 
-    return (
-        <div>{item && item.name}</div>
-    )
+    if (item) {
+        return <ItemCard item={item} />
+    }
+
 }
 
 export default Item
