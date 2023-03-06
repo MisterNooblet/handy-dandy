@@ -1,7 +1,7 @@
 import { RouterProvider } from "react-router-dom";
 import { useSelector } from 'react-redux'
 import { createBrowserRouter } from "react-router-dom";
-import { Error404, Home, LayoutComponent, Toolbox, Wiki, Register, Login, Profile, Admin } from "./pages/";
+import { Error404, Home, LayoutComponent, Toolbox, Wiki, Register, Login, Profile, Admin, Item } from "./pages/";
 import AuthProvider from "./utils/AuthProvider";
 
 function App() {
@@ -17,6 +17,7 @@ function App() {
         { path: '/wiki/:category', element: <Wiki /> },
         { path: '/wiki/:category/p/:subcategories', element: <Wiki /> },
         { path: '/wiki/:category/p/:subcategories/tools/:tools', element: <Wiki /> },
+        { path: '/wiki/:category/p/:subcategories/tools/:tools/item/:name', element: <Item /> },
         { path: '/toolbox', element: <Toolbox /> },
         { path: '/register', element: <Register /> },
         { path: '/login', element: <Login /> },

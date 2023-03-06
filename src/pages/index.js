@@ -7,4 +7,5 @@ import Error404 from "./Error/Error404.page";
 import Admin from "./Admin/Admin.page";
 import Register from "./Register/Register.page";
 import Login from "./Login/Login.page";
-export { Home, Profile, Toolbox, Wiki, LayoutComponent, Error404, Admin, Register, Login }
+import Item from "./Item/Item.page";
+export { Home, Profile, Toolbox, Wiki, LayoutComponent, Error404, Admin, Register, Login, Item }

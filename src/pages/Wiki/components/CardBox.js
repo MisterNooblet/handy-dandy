@@ -157,7 +157,7 @@ const CardBox = ({ params, array, isItem }) => {
                                 <Typography>{card.description}</Typography>
                             </CardContent>
                             <CardActions>
-                                <Link to={!params.subcategories && !params.categories ? `p/${card.id}` : params.subcategories ? `tools/${card.id}` : null}>
+                                <Link to={!params.subcategories && !params.categories ? `p/${card.id}` : params.subcategories && !params.tools ? `tools/${card.id}` : `item/${card.name}`}>
                                     <Button size="small">View</Button>
                                 </Link>
                                 {isItem && <Button size="small">Edit</Button>}
