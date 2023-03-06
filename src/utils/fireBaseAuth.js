@@ -15,6 +15,8 @@ const fireBaseAuth = {
             const code = error.code
             const message = error.message
             return { code, message }
+        } finally {
+            this.updateUser(firstName, lastName, country)
         }
 
     },
