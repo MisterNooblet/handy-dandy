@@ -10,13 +10,13 @@ const fireBaseAuth = {
         try {
             const response = await createUserWithEmailAndPassword(auth, email, password)
             const result = response.user
+            this.updateUser(firstName, lastName, country)
             return result
         } catch (error) {
             const code = error.code
             const message = error.message
             return { code, message }
         } finally {
-            this.updateUser(firstName, lastName, country)
         }
 
     },

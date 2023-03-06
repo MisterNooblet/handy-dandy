@@ -197,7 +197,7 @@ const ItemManager = ({ type }) => {
                             id: 'itemSubCategory',
                         }}
                     >
-                        {categories.subCategories && categories.subCategories.map(cat => <option value={cat}>{cat.replace(/([a-z0-9])([A-Z])/g, '$1 $2')}</option>)}
+                        {categories.subCategories && categories.subCategories.map(cat => cat !== 'categoryInfo' && <option value={cat}>{cat.replace(/([a-z0-9])([A-Z])/g, '$1 $2')}</option>)}
                     </NativeSelect>
                 </FormControl>
             </Box>
