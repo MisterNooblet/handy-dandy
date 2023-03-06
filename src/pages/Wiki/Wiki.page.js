@@ -9,6 +9,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useParams } from 'react-router-dom';
 import CardBox from './components/CardBox';
+import { normalizeCC } from '../../utils/normalizeCamelCase';
 
 const cards = [
   {
@@ -57,11 +58,11 @@ export default function Wiki() {
               {!params.category
                 ? 'Our Tool-O-Pedia'
                 : params.tools
-                  ? params.tools
+                  ? normalizeCC(params.tools)
                   : params.subcategories
-                    ? params.subcategories
+                    ? normalizeCC(params.subcategories)
                     : params.category
-                      ? params.category
+                      ? normalizeCC(params.category)
                       : 'Something went wrong'}
             </Typography>
             <Typography

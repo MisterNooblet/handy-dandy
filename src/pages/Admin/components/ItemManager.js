@@ -9,6 +9,7 @@ import TextareaAutosize from '@mui/base/TextareaAutosize';
 import { Button, Input } from '@mui/material';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import ProgressBar from './ProgressBar';
+import { normalizeCC } from '../../../utils/normalizeCamelCase';
 
 const initialState = {
     categories: null,
@@ -184,7 +185,7 @@ const ItemManager = ({ type }) => {
                             id: 'itemCategory',
                         }}
                     >
-                        {categories.categories && categories.categories.map(cat => <option value={cat}>{cat.replace(/([a-z0-9])([A-Z])/g, '$1 $2')}</option>)}
+                        {categories.categories && categories.categories.map(cat => <option value={cat}>{normalizeCC(cat)}</option>)}
                     </NativeSelect>
                 </FormControl>
             </Box>
@@ -197,7 +198,7 @@ const ItemManager = ({ type }) => {
                             id: 'itemSubCategory',
                         }}
                     >
-                        {categories.subCategories && categories.subCategories.map(cat => cat !== 'categoryInfo' && <option value={cat}>{cat.replace(/([a-z0-9])([A-Z])/g, '$1 $2')}</option>)}
+                        {categories.subCategories && categories.subCategories.map(cat => cat !== 'categoryInfo' && <option value={cat}>{normalizeCC(cat)}</option>)}
                     </NativeSelect>
                 </FormControl>
             </Box>
