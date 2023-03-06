@@ -1,5 +1,5 @@
 import { Button, Card, CardActions, CardContent, CardMedia, Grid, Typography } from '@mui/material'
-import { collection, getDocs } from 'firebase/firestore'
+import { collection, doc, getDoc, getDocs } from 'firebase/firestore'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { db } from '../../../utils/fireBaseConfig'
@@ -8,10 +8,10 @@ import { db } from '../../../utils/fireBaseConfig'
 const CardBox = ({ params, array, isItem }) => {
     const [results, setResults] = useState(null)
 
-    const fetchCategories = async () => {
+    const fetchCategories = async (location) => {
         const categories = []
 
-        const querySnapshot = await getDocs(collection(db, params.category));
+        const querySnapshot = await getDocs(collection(db, location));
         querySnapshot.forEach((doc) => {
             let id = doc.id
             let info = doc.get('categoryInfo')
@@ -20,10 +20,72 @@ const CardBox = ({ params, array, isItem }) => {
         setResults(categories)
     }
 
+    const getItemSubCategories = async () => {
+        let subCategoryList = []
+        const docRef = doc(db, `${params.category}`, params.subcategories)
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+            const subCategoryObject = docSnap.data()
+            const ordered = Object.keys(subCategoryObject).sort().reduce(
+                (obj, key) => {
+                    obj[key] = subCategoryObject[key];
+                    return obj;
+                },
+                {}
+            );
+            for (const prop in ordered) {
+                if (prop !== 'categoryInfo') {
+                    ordered[`${prop}`].forEach(element => {
+                        if (element.type === 'categoryInfo') {
+                            subCategoryList.push({ ...element, id: prop })
+                        }
+                    })
+                }
+            }
+        } else {
+            console.log("No such document!");
+        }
+        setResults(subCategoryList)
+    }
+
+    const getTools = async () => {
+        let subCategoryList = []
+        const docRef = doc(db, `${params.category}`, params.subcategories)
+        const docSnap = await getDoc(docRef);
+        console.log(docSnap);
+        if (docSnap.exists()) {
+            const subCategoryObject = docSnap.data()
+            const ordered = Object.keys(subCategoryObject).sort().reduce(
+                (obj, key) => {
+                    obj[key] = subCategoryObject[key];
+                    return obj;
+                },
+                {}
+            );
+            for (const prop in ordered) {
+                if (prop === params.tools) {
+                    ordered[`${prop}`].forEach(element => {
+                        if (element.type !== 'categoryInfo') {
+                            subCategoryList.push(element)
+                        }
+
+                    })
+                }
+            }
+        } else {
+            console.log("No such document!");
+        }
+        setResults(subCategoryList)
+    }
 
     useEffect(() => {
-        if (params && !params.item && !params.subcategories && params.category) {
-            fetchCategories()
+        if (params && !params.tools && !params.subcategories && params.category) {
+            fetchCategories(params.category)
+        } else if (params && !params.tools && params.subcategories) {
+            getItemSubCategories(params.subcategories)
+        } else if (params && params.tools) {
+            getTools()
         }
         // eslint-disable-next-line
     }, [])
@@ -71,7 +133,7 @@ const CardBox = ({ params, array, isItem }) => {
         return (
             <>
                 {results.map((card) => (
-                    <Grid item key={card.name} xs={12} sm={6} md={4}>
+                    <Grid item key={Math.random()} xs={12} sm={6} md={4}>
                         <Card
                             sx={{
                                 height: '100%',
@@ -95,7 +157,7 @@ const CardBox = ({ params, array, isItem }) => {
                                 <Typography>{card.description}</Typography>
                             </CardContent>
                             <CardActions>
-                                <Link to={`${card.id}`}>
+                                <Link to={!params.subcategories && !params.categories ? `p/${card.id}` : params.subcategories ? `tools/${card.id}` : null}>
                                     <Button size="small">View</Button>
                                 </Link>
                                 {isItem && <Button size="small">Edit</Button>}

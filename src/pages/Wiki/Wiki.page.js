@@ -56,13 +56,13 @@ export default function Wiki() {
             >
               {!params.category
                 ? 'Our Tool-O-Pedia'
-                : params.item
-                ? params.item
-                : params.subcategories
-                ? params.subcategories
-                : params.category
-                ? params.category
-                : 'Something went wrong'}
+                : params.tools
+                  ? params.tools
+                  : params.subcategories
+                    ? params.subcategories
+                    : params.category
+                      ? params.category
+                      : 'Something went wrong'}
             </Typography>
             <Typography
               variant="h5"
@@ -90,9 +90,9 @@ export default function Wiki() {
             sx={{ display: 'flex', justifyContent: 'space-around' }}
           >
             {!params.category && <CardBox array={cards} />}
-            {params.item && null}
-            {params.subcategories && <CardBox params={params} />}
-            {params.category && <CardBox params={params} />}
+            {params && params.tools && <CardBox params={params} />}
+            {params && params.subcategories && !params.tools && <CardBox params={params} />}
+            {params && params.category && !params.subcategories && !params.tools && < CardBox params={params} />}
           </Grid>
         </Container>
       </>
