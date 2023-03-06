@@ -17,7 +17,7 @@ const ItemCard = ({ item }) => {
                 </Typography>
                 <Typography>{item.description}</Typography>
                 <ul>
-                    {item.props.length > 0 && item.props.map(prop => prop && <li><Typography>{prop}</Typography></li>)}
+                    {item.props.length > 0 && item.props.map(prop => prop && <li key={prop}><Typography >{prop}</Typography></li>)}
                 </ul>
                 <Box>
                     <Button sx={{ width: 'fit-content' }}>Add to my Toolbox</Button>

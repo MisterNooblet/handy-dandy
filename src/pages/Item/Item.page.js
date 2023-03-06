@@ -17,7 +17,6 @@ const Item = () => {
 
         const docRef = doc(db, `${params.category}`, params.subcategories)
         const docSnap = await getDoc(docRef);
-        console.log(docSnap);
         if (docSnap.exists()) {
             const subCategoryObject = docSnap.data()
             const ordered = Object.keys(subCategoryObject).sort().reduce(
@@ -42,7 +41,6 @@ const Item = () => {
         } else {
             console.log("No such document!");
         }
-        console.log(item);
     }
 
 

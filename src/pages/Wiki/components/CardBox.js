@@ -53,7 +53,6 @@ const CardBox = ({ params, array, isItem }) => {
         let subCategoryList = []
         const docRef = doc(db, `${params.category}`, params.subcategories)
         const docSnap = await getDoc(docRef);
-        console.log(docSnap);
         if (docSnap.exists()) {
             const subCategoryObject = docSnap.data()
             const ordered = Object.keys(subCategoryObject).sort().reduce(
