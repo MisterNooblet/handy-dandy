@@ -1,10 +1,33 @@
 import { Button, Card, CardMedia, Typography } from '@mui/material'
 import { Box } from '@mui/system'
-import React from 'react'
+import { arrayUnion, doc, updateDoc } from 'firebase/firestore'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import { db } from '../../../utils/fireBaseConfig'
+import { updateToolbox } from '../../../store/authSlice'
 
 const ItemCard = ({ item }) => {
+    const user = useSelector((state) => state.auth)
+    const [userHasTool, setUserHasTool] = useState(null)
     const navigate = useNavigate()
+    const dispatch = useDispatch()
+
+    const addNewItemToToolbox = async () => {
+        const toolCatRef = doc(db, `users`, user.user.uid);
+
+        await updateDoc(toolCatRef, {
+            toolbox: arrayUnion({ ...item })
+        });
+        dispatch(updateToolbox(item))
+    }
+
+    useEffect(() => {
+        if (user.user) {
+            const userOwns = user.userExtras.toolbox.find(tool => tool.name === item.name)
+            userOwns && setUserHasTool(prev => userOwns)
+        }
+    }, [user, item.name])
 
     return (
         <Card sx={{ maxHeight: '100%', display: 'flex' }}>
@@ -20,7 +43,8 @@ const ItemCard = ({ item }) => {
                     {item.props.length > 0 && item.props.map(prop => prop && <li key={prop}><Typography >{prop}</Typography></li>)}
                 </ul>
                 <Box>
-                    <Button sx={{ width: 'fit-content' }}>Add to my Toolbox</Button>
+                    {user.user && !userHasTool && <Button sx={{ width: 'fit-content' }} onClick={addNewItemToToolbox}>Add to my Toolbox</Button>}
+                    {user.user && userHasTool && <Button sx={{ width: 'fit-content' }} onClick={() => navigate('/toolbox')}>You own this tool! to toolbox?</Button>}
                     <Button sx={{ width: 'fit-content' }} onClick={() => navigate(-1)}>Back to Categorty</Button>
                 </Box>
             </Box>

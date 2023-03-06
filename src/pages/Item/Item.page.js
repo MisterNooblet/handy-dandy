@@ -5,8 +5,11 @@ import { db } from '../../utils/fireBaseConfig'
 import ItemCard from './components/ItemCard'
 
 const Item = () => {
+
     const [item, setItem] = useState(null)
     const params = useParams()
+
+
 
     useEffect(() => {
         getTool()

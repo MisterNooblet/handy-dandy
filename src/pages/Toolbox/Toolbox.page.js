@@ -1,6 +1,9 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 
+
+
+
 const Toolbox = () => {
     const user = useSelector((state) => state.auth)
     console.log(user.userExtras);
@@ -12,7 +15,7 @@ const Toolbox = () => {
     } else {
         return (
             <>
-                {user.userExtras.toolbox.length === 0 ? <div>Toolbox empty</div> : <div>Toolbox</div>}
+                {user.userExtras.toolbox.length === 0 ? <div>Toolbox empty</div> : null}
             </>
         )
     }
