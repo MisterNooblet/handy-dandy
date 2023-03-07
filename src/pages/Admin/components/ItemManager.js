@@ -10,7 +10,7 @@ import { Button, Input } from '@mui/material';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import ProgressBar from './ProgressBar';
 import { normalizeCC } from '../../../utils/normalizeCamelCase';
-import adminData from './adminData';
+import dataFetcher from '../../../utils/dataFetcher';
 
 const initialState = {
     categories: null,
@@ -86,12 +86,12 @@ const ItemManager = ({ type }) => {
 
 
     const getItemCategories = async () => {
-        const categoryIds = await adminData.getItemCategories(`${type}s`)
+        const categoryIds = await dataFetcher.getItemCategories(`${type}s`)
         dispatch({ type: 'setCategories', categories: categoryIds })
     }
 
     const getItemSubCategories = async () => {
-        const subCategoryList = await adminData.getItemSubCategories(`${type}s`, categories.currentCategory)
+        const subCategoryList = await dataFetcher.getItemSubCategories(`${type}s`, categories.currentCategory)
 
         dispatch({ type: 'setSubCategories', subCategories: subCategoryList })
     }

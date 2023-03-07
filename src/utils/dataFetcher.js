@@ -1,7 +1,7 @@
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
-import { db } from "../../../utils/fireBaseConfig";
+import { db } from "./fireBaseConfig";
 
-const adminData = {
+const dataFetcher = {
 
     async getItemCategories(target) {
         const categoryIds = []
@@ -29,7 +29,21 @@ const adminData = {
         return subCategoryList.sort()
     },
 
+    async getArticles(category) {
+        let subCategoryList = []
+        const docRef = doc(db, 'articles', category)
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+            subCategoryList = docSnap.data().articles
+
+        } else {
+            console.log("No such document!");
+        }
+        return subCategoryList
+
+    },
 
 }
 
-export default adminData
+export default dataFetcher

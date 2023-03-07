@@ -4,10 +4,12 @@ import { db, storage } from '../../../utils/fireBaseConfig';
 import { Box } from '@mui/system';
 import TextField from '@mui/material/TextField';
 import TextareaAutosize from '@mui/base/TextareaAutosize';
-import { Button, Input } from '@mui/material';
+import { Button, FormControl, Input, NativeSelect } from '@mui/material';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import ProgressBar from './ProgressBar';
 import RequirementManager from './RequirementManager';
+import { normalizeCC } from '../../../utils/normalizeCamelCase';
+import dataFetcher from '../../../utils/dataFetcher';
 
 const formInitialState = {
     title: '',
@@ -52,9 +54,10 @@ function formReducer(state, action) {
 const ArticleManager = () => {
     const [formData, formDispatch] = useReducer(formReducer, formInitialState)
     const [percent, setPercent] = useState(0)
-    // const [checked, setChecked] = React.useState([]);
-    // const [left, setLeft] = React.useState([]);
-    // const [right, setRight] = React.useState([]);
+    const [neededTools, setNeededTools] = useState(null)
+    const [neededMaterials, setNeededMaterials] = useState(null)
+    const [categories, setCategories] = useState(null)
+    const [category, setCategory] = useState(null)
 
     function handleFileChange(event) {
         const file = event.target.files[0]
@@ -62,6 +65,15 @@ const ArticleManager = () => {
         formDispatch({ type: 'updateFile', value: file })
     }
 
+    const getArticleCategories = async () => {
+        const result = await dataFetcher.getItemCategories('articles')
+        setCategories(prev => prev = result)
+        setCategory(prev => prev = result[0])
+    }
+
+    useState(() => {
+        getArticleCategories()
+    }, [])
 
     const handleUpload = () => {
         const storageRef = ref(storage, `/articleimages/${Math.random()}${formData.file.name}`);
@@ -83,26 +95,24 @@ const ArticleManager = () => {
         );
     };
 
-    const addNewItem = async (category, subCategory, tool) => {
+    const addNewItem = async (category, article) => {
         const toolCatRef = doc(db, `articles`, category);
 
         await updateDoc(toolCatRef, {
-            [subCategory]: arrayUnion({ ...tool })
+            articles: arrayUnion({ ...article })
         });
     }
 
     const handleAddItem = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        const category = data.get('itemCategory')
-        const subCategory = data.get('itemSubCategory')
         const itemTitle = data.get('itemTitle')
         const itemProps = data.get('itemProps').split('|').map(str => str.trim())
         const imageFile = formData.imageSrc
-        const shortDescription = data.get('shortDescription')
-        const toolObj = { name: itemTitle, description: shortDescription, image: imageFile, props: itemProps, category: category, subCategory: subCategory }
-        if (category && subCategory && itemTitle && itemProps.length > 0 && imageFile && shortDescription) {
-            addNewItem(category, subCategory, toolObj)
+        const articleText = data.get('shortDescription')
+        const articleObj = { name: itemTitle, description: articleText, image: imageFile, props: itemProps, category: category, tools: neededTools, materials: neededMaterials }
+        if (category && itemTitle && itemProps.length > 0 && imageFile && articleText) {
+            addNewItem(category, articleObj)
             formDispatch({ type: 'clearForm' })
             setPercent(0)
         }
@@ -110,26 +120,42 @@ const ArticleManager = () => {
 
     return (
         <Box component='form' noValidate onSubmit={handleAddItem} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-around', width: { sm: '100%', md: '60%', lg: '50%' } }}>
-            <RequirementManager target={'tools'} />
-            <RequirementManager target={'materials'} />
+            <Box sx={{ minWidth: 120 }}>
+                <FormControl fullWidth >
+                    {categories && <NativeSelect
+
+                        onChange={(e) => setCategory(e.target.value)}
+                        inputProps={{
+                            name: 'itemCategory',
+                            id: 'itemCategory',
+                        }}
+                    >
+                        {categories.map(cat => <option value={cat}>{normalizeCC(cat)}</option>)}
+                    </NativeSelect>}
+                </FormControl>
+            </Box>
+
             <TextField inputProps={{
                 name: 'itemTitle',
                 id: 'itemTitle',
             }} label={`Article Title`} variant="standard" value={formData.title} onChange={(e) => formDispatch({ type: 'updateTitle', value: e.target.value })} />
-            <TextField id="itemProps" name='itemProps' label={`Article properties seperated by | ex: Good grip | Sturdy`} variant="standard" value={formData.properties} onChange={(e) => formDispatch({ type: 'updateProps', value: e.target.value })} />
-            <Input type='file' id='imageFile' name='imageFile' onChange={handleFileChange} />
-            {percent > 0 && <ProgressBar value={percent} />}
-            {formData.file && <><Button onClick={handleUpload} type='button'>Upload image</Button></>}
             <TextareaAutosize
                 value={formData.description} onChange={(e) => formDispatch({ type: 'updateDescription', value: e.target.value })}
                 aria-label="minimum height"
                 minRows={3}
-                placeholder="Short Description"
+                placeholder="Article main text"
                 style={{ width: '100%' }}
                 id='shortDescription'
                 name='shortDescription'
             />
-            <Button type='submit' disabled={percent !== 100 && true}>Add Article</Button>
+            <TextField id="itemProps" name='itemProps' label={`Article short tips seperated by | ex: Dangerous | Wear safety gear`} variant="standard" value={formData.properties} onChange={(e) => formDispatch({ type: 'updateProps', value: e.target.value })} />
+            <RequirementManager target={'tools'} neededTools={neededTools} neededMaterials={neededMaterials} setNeededMaterials={setNeededMaterials} setNeededTools={setNeededTools} />
+            <RequirementManager target={'materials'} neededTools={neededTools} neededMaterials={neededMaterials} setNeededMaterials={setNeededMaterials} setNeededTools={setNeededTools} />
+            <Input type='file' id='imageFile' name='imageFile' onChange={handleFileChange} />
+            {percent > 0 && <ProgressBar value={percent} />}
+            {formData.file && <><Button onClick={handleUpload} type='button'>Upload image</Button></>}
+            <Button type='submit' disabled={percent !== 100 && true} >Add Article</Button>
+
         </Box>
     )
 }

@@ -5,11 +5,12 @@ import Autocomplete from '@mui/material/Autocomplete';
 export default function ComboBox({ label, array, visibility, setCategory, title }) {
     return (
         <Autocomplete sx={{ visibility: visibility }}
+            onChange={(e) => setCategory(prev => prev = e.target.innerHTML)}
             disablePortal
             options={array}
             fullwidth='true'
             renderInput={(params) => <TextField id={label} title={title}
-                name={label}{...params} label={label} onChange={(e) => setCategory(prev => e.target.value)} />}
+                name={label}{...params} label={label} />}
         />
     );
 }
