@@ -2,12 +2,15 @@ import AutoComplete from '../../components/AutoComplete'
 import React, { useEffect, useState } from 'react'
 import Intro from './components/Intro'
 import { dataFetcher } from '../../utils'
+import Article from './components/Article'
 
 const Home = () => {
     const [categories, setCategories] = useState(null)
     const [category, setCategory] = useState(null)
+    const [articleNames, setArticleNames] = useState(null)
     const [articles, setArticles] = useState(null)
     const [article, setArticle] = useState(null)
+    const [articleToDisplay, setArticleToDisplay] = useState(null)
 
 
     const getArticleCategories = async () => {
@@ -22,12 +25,26 @@ const Home = () => {
             acc.push(item.name)
             return acc
         }, [])
-        setArticles(prev => prev = articleNames)
+        setArticleNames(prev => prev = articleNames)
+        setArticles(prev => prev = result)
+    }
+
+    const forwardArticle = () => {
+        if (articles) {
+            const result = articles.filter(item => item.name === article)
+            setArticleToDisplay(prev => prev = result)
+
+        }
     }
 
     useEffect(() => {
         getArticleCategories()
     }, [])
+
+    useEffect(() => {
+        forwardArticle()
+        //eslint-disable-next-line
+    }, [article])
 
     useEffect(() => {
         if (categories && categories.includes(category)) {
@@ -39,8 +56,9 @@ const Home = () => {
     return (
         <>
             {categories && <AutoComplete label={'Category'} array={categories} setCategory={setCategory} />}
-            {articles && <AutoComplete label={'Article'} array={articles} setCategory={setArticle} />}
+            {articleNames && <AutoComplete label={'Article'} array={articleNames} setCategory={setArticle} />}
             {!article && <Intro />}
+            {articleToDisplay && <Article article={articleToDisplay[0]} />}
         </>
     )
 }

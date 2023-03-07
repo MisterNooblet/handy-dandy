@@ -9,7 +9,6 @@ const dataFetcher = {
         querySnapshot.forEach((doc) => {
             categoryIds.push(doc.id)
         })
-        console.log(categoryIds);
         return categoryIds
     },
 
