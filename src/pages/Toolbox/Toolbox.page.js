@@ -22,7 +22,7 @@ const Toolbox = () => {
     const [listHeight, setListHeight] = useState('80%')
     const user = useSelector((state) => state.auth)
     const dispatch = useDispatch()
-    const toolbox = user.userExtras.toolbox
+
 
     console.log(user.userExtras);
 
@@ -44,7 +44,7 @@ const Toolbox = () => {
 
 
     const handleUpdateToolbox = async () => {
-        const newToolBox = toolbox.filter(item => !checked.includes(item.name))
+        const newToolBox = user.userExtras.toolbox.filter(item => !checked.includes(item.name))
         const cityRef = doc(db, 'users', user.user.uid);
         setDoc(cityRef, { toolbox: newToolBox }, { merge: true });
         dispatch(setToolBox(newToolBox))
@@ -60,18 +60,18 @@ const Toolbox = () => {
     } else {
         return (
             <>
-                {toolbox.length === 0 ? <div>Toolbox empty</div> : (
+                {user.userExtras.toolbox.length === 0 ? <div>Toolbox empty</div> : (
                     <Box component={'div'} sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, height: '100%' }}>
                         <Box component={'div'} sx={{ height: { xs: listHeight, md: '80vh' } }}>
                             <List sx={{ width: { xs: '100%', md: '360px' }, height: '100%', overflowY: 'scroll', bgcolor: 'background.paper' }}>
-                                {toolbox.map((value, idx) => {
+                                {user.userExtras.toolbox.map((value, idx) => {
                                     const labelId = `checkbox-list-label-${value.name}`;
 
                                     return (
                                         <ListItem
                                             key={value.name}
                                             secondaryAction={<IconButton edge="end" aria-label="comments" onClick={() => {
-                                                setMoreInfo(toolbox[idx])
+                                                setMoreInfo(user.userExtras.toolbox[idx])
                                                 setListHeight('40%')
                                             }}>
                                                 <InfoIcon />
