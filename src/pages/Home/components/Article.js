@@ -12,6 +12,27 @@ const Article = ({ article }) => {
             </Typography>
             <Box component={'img'} sx={{ background: `url('${article.image}') center center/contain no-repeat`, width: { xs: 300 }, height: { xs: 300 }, gridArea: '2 / 1 / 5 / 4' }} />
             <Typography sx={{ gridArea: '2/4/13/10' }}>{article.description}</Typography>
+            <Box sx={{ gridArea: '5 / 1 / 8 / 4' }}>
+                <Typography>Materials Required:</Typography>
+                <ul>
+
+                    {article.materials.map(item => <li>{item.name}</li>)}
+                </ul>
+            </Box>
+            <Box sx={{ gridArea: '8 / 1 / 11 / 4' }}>
+                <Typography>Tools Required:</Typography>
+                <ul>
+
+                    {article.tools.map(item => <li>{item.name}</li>)}
+                </ul>
+            </Box>
+            <Box sx={{ gridArea: '11 / 1 / 13 / 4' }}>
+                <Typography>Our Tips for the job:</Typography>
+                <ul>
+
+                    {article.props.map(item => <li>{item}</li>)}
+                </ul>
+            </Box>
         </Card>
     )
 }
