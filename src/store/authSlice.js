@@ -24,10 +24,13 @@ const authSlice = createSlice({
         updateToolbox: (state, action) => {
             state.userExtras.toolbox.push(action.payload)
         },
+        setToolBox: (state, action) => {
+            state.userExtras.toolbox = action.payload
+        }
     }
 
 })
 
-export const { login, logout, updateUser, updateToolbox } = authSlice.actions;
+export const { login, logout, updateUser, updateToolbox, setToolBox } = authSlice.actions;
 export const selectUser = (state) => state.user.user
 export default authSlice

@@ -1,12 +1,14 @@
 import { Button, Card, CardActions, CardContent, CardMedia, Grid, Typography } from '@mui/material'
+import { Box } from '@mui/system'
 import { collection, doc, getDoc, getDocs } from 'firebase/firestore'
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { db } from '../../../utils/fireBaseConfig'
 
 
 const CardBox = ({ params, array, isItem }) => {
     const [results, setResults] = useState(null)
+    const navigate = useNavigate()
 
     const fetchCategories = async (location) => {
         const categories = []
@@ -18,6 +20,7 @@ const CardBox = ({ params, array, isItem }) => {
             categories.push({ ...info, id: id })
         })
         setResults(categories)
+
     }
 
     const getItemSubCategories = async () => {
@@ -47,6 +50,7 @@ const CardBox = ({ params, array, isItem }) => {
             console.log("No such document!");
         }
         setResults(subCategoryList)
+
     }
 
     const getTools = async () => {
@@ -76,6 +80,7 @@ const CardBox = ({ params, array, isItem }) => {
             console.log("No such document!");
         }
         setResults(subCategoryList)
+
     }
 
     useEffect(() => {
@@ -93,6 +98,7 @@ const CardBox = ({ params, array, isItem }) => {
     if (params === undefined) {
         return (
             <>
+
                 {array.map((card) => (
                     <Grid item key={card.title} xs={12} sm={6} md={4}>
                         <Card
@@ -131,6 +137,9 @@ const CardBox = ({ params, array, isItem }) => {
     } else if (results) {
         return (
             <>
+                {results.length === 0 && <Box>
+                    <Typography component={'h3'} variant={'h3'}>No data yet..</Typography>
+                    <Button onClick={() => { navigate(-1) }}>Go Back?</Button></Box>}
                 {results.map((card) => (
                     <Grid item key={Math.random()} xs={12} sm={6} md={4}>
                         <Card
