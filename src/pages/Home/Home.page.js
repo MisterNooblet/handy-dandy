@@ -30,7 +30,7 @@ const Home = () => {
     }, [])
 
     useEffect(() => {
-        if (categories.includes(category)) {
+        if (categories && categories.includes(category)) {
             getArticleList()
         }
         //eslint-disable-next-line
@@ -38,8 +38,8 @@ const Home = () => {
     // const dispatch = useDispatch()
     return (
         <>
-            <AutoComplete label={'Category'} array={categories} setCategory={setCategory} />
-            <AutoComplete label={'Article'} array={articles} setCategory={setArticle} />
+            {categories && <AutoComplete label={'Category'} array={categories} setCategory={setCategory} />}
+            {articles && <AutoComplete label={'Article'} array={articles} setCategory={setArticle} />}
             {!article && <Intro />}
         </>
     )
