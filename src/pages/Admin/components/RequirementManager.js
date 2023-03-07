@@ -1,9 +1,9 @@
 import { FormControl, NativeSelect, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import React, { useEffect, useReducer, useState } from 'react'
+import { dataFetcher } from '../../../utils';
 import { normalizeCC } from '../../../utils/normalizeCamelCase';
 import toolFetcher from '../../../utils/toolFetcher';
-import dataFetcher from '../../../utils/dataFetcher';
 import TransferList from './TransferList';
 
 const initialState = {

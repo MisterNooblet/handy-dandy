@@ -9,7 +9,7 @@ import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import ProgressBar from './ProgressBar';
 import RequirementManager from './RequirementManager';
 import { normalizeCC } from '../../../utils/normalizeCamelCase';
-import dataFetcher from '../../../utils/dataFetcher';
+import { dataFetcher } from '../../../utils';
 
 const formInitialState = {
     title: '',

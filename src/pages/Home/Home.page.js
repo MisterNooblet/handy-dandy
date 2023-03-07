@@ -1,7 +1,7 @@
 import AutoComplete from '../../components/AutoComplete'
 import React, { useEffect, useState } from 'react'
 import Intro from './components/Intro'
-import dataFetcher from '../../utils/dataFetcher'
+import { dataFetcher } from '../../utils'
 
 const Home = () => {
     const [categories, setCategories] = useState(null)
