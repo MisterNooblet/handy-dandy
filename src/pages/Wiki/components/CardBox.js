@@ -3,8 +3,8 @@ import { Box } from '@mui/system'
 
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { toolFetcher } from '../../../utils'
 
-import toolFetcher from '../../../utils/toolFetcher'
 
 
 const CardBox = ({ params, array, isItem }) => {
