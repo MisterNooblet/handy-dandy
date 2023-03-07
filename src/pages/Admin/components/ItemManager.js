@@ -1,5 +1,5 @@
 import React, { useEffect, useReducer, useState } from 'react'
-import { arrayUnion, collection, doc, getDoc, getDocs, updateDoc, } from "firebase/firestore";
+import { arrayUnion, doc, updateDoc, } from "firebase/firestore";
 import { db, storage } from '../../../utils/fireBaseConfig';
 import { Box } from '@mui/system';
 import FormControl from '@mui/material/FormControl';
@@ -10,6 +10,7 @@ import { Button, Input } from '@mui/material';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import ProgressBar from './ProgressBar';
 import { normalizeCC } from '../../../utils/normalizeCamelCase';
+import adminData from './adminData';
 
 const initialState = {
     categories: null,
@@ -82,29 +83,17 @@ const ItemManager = ({ type }) => {
     const [formData, formDispatch] = useReducer(formReducer, formInitialState)
     const [percent, setPercent] = useState(0)
 
+
+
     const getItemCategories = async () => {
-        const categoryIds = []
-        const querySnapshot = await getDocs(collection(db, `${type}s`));
-        querySnapshot.forEach((doc) => {
-            categoryIds.push(doc.id)
-        })
+        const categoryIds = await adminData.getItemCategories(`${type}s`)
         dispatch({ type: 'setCategories', categories: categoryIds })
     }
 
     const getItemSubCategories = async () => {
-        let subCategoryList = []
-        const docRef = doc(db, `${type}s`, categories.currentCategory)
-        const docSnap = await getDoc(docRef);
+        const subCategoryList = await adminData.getItemSubCategories(`${type}s`, categories.currentCategory)
 
-        if (docSnap.exists()) {
-            const subCategoryObject = docSnap.data()
-            for (const prop in subCategoryObject) {
-                subCategoryList.push(prop)
-            }
-        } else {
-            console.log("No such document!");
-        }
-        dispatch({ type: 'setSubCategories', subCategories: subCategoryList.sort() })
+        dispatch({ type: 'setSubCategories', subCategories: subCategoryList })
     }
 
     useEffect(() => {

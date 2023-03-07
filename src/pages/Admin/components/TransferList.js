@@ -60,11 +60,11 @@ export default function TransferList({ setChecked, setLeft, setRight, checked, l
         <Paper sx={{ width: 200, height: 230, overflow: 'auto' }}>
             <List dense component="div" role="list">
                 {items.map((value) => {
-                    const labelId = `transfer-list-item-${value}-label`;
+                    const labelId = `transfer-list-item-${value.name}-label`;
 
                     return (
                         <ListItem
-                            key={value}
+                            key={value.name}
                             role="listitem"
                             button
                             onClick={handleToggle(value)}
@@ -79,7 +79,7 @@ export default function TransferList({ setChecked, setLeft, setRight, checked, l
                                     }}
                                 />
                             </ListItemIcon>
-                            <ListItemText id={labelId} primary={`List item ${value + 1}`} />
+                            <ListItemText id={labelId} primary={`${value.name}`} />
                         </ListItem>
                     );
                 })}
