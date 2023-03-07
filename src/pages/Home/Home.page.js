@@ -2,7 +2,6 @@ import AutoComplete from '../../components/AutoComplete'
 import React, { useEffect, useState } from 'react'
 import Intro from './components/Intro'
 import dataFetcher from '../../utils/dataFetcher'
-import { Button } from '@mui/material'
 
 const Home = () => {
     const [categories, setCategories] = useState(null)
@@ -26,16 +25,14 @@ const Home = () => {
         setArticles(prev => prev = articleNames)
     }
 
-    const handleTest = () => {
-        console.log(category);
-    }
-
     useEffect(() => {
         getArticleCategories()
     }, [])
 
     useEffect(() => {
-        getArticleList()
+        if (categories.includes(category)) {
+            getArticleList()
+        }
         //eslint-disable-next-line
     }, [category])
     // const dispatch = useDispatch()
