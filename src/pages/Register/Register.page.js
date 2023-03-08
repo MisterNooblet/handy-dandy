@@ -129,7 +129,7 @@ export default function Register() {
                                 />
                             </Grid>
                             <Grid item xs={12}>
-                                <AutoComplete label={'Country'} array={api.countries} title={'Please select your contry of residence from the list below'} />
+                                <AutoComplete label={'Country'} array={api.countries} />
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField

@@ -58,7 +58,7 @@ const Home = () => {
             {categories && <AutoComplete label={'Category'} array={categories} setCategory={setCategory} />}
             {articleNames && <AutoComplete label={'Article'} array={articleNames} setCategory={setArticle} />}
             {!article && <Intro />}
-            {articleToDisplay && <Article article={articleToDisplay[0]} />}
+            {articleToDisplay && articleToDisplay.length > 0 && <Article article={articleToDisplay[0]} />}
         </>
     )
 }

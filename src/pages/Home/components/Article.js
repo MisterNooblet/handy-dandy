@@ -3,10 +3,8 @@ import { Box, } from '@mui/system'
 import React from 'react'
 
 const Article = ({ article }) => {
-    console.log(article);
     return (
         <Card sx={{ padding: 5, display: 'grid', gridTemplateColumns: 'repeat(9, 1fr)', gridTemplateRows: 'repeat(12, 1fr)' }}>
-
             <Typography textAlign={'center'} component={'h3'} variant='h3' sx={{ gridArea: '1 / 1 / 2 / 10' }} >
                 {article.name}
             </Typography>
@@ -15,22 +13,19 @@ const Article = ({ article }) => {
             <Box sx={{ gridArea: '5 / 1 / 8 / 4' }}>
                 <Typography>Materials Required:</Typography>
                 <ul>
-
-                    {article.materials.map(item => <li>{item.name}</li>)}
+                    {article.materials.map(item => <li key={item.name}>{item.name}</li>)}
                 </ul>
             </Box>
             <Box sx={{ gridArea: '8 / 1 / 11 / 4' }}>
                 <Typography>Tools Required:</Typography>
                 <ul>
-
-                    {article.tools.map(item => <li>{item.name}</li>)}
+                    {article.tools.map(item => <li key={item.name}>{item.name}</li>)}
                 </ul>
             </Box>
             <Box sx={{ gridArea: '11 / 1 / 13 / 4' }}>
                 <Typography>Our Tips for the job:</Typography>
                 <ul>
-
-                    {article.props.map(item => <li>{item}</li>)}
+                    {article.props.map(item => <li key={item}>{item}</li>)}
                 </ul>
             </Box>
         </Card>
