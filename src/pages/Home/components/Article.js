@@ -1,4 +1,4 @@
-import { Button, Card, List, ListItem, Typography } from '@mui/material'
+import { Card, List, ListItem, Typography } from '@mui/material'
 import { Box, } from '@mui/system'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
@@ -9,6 +9,7 @@ import InfoIcon from '@mui/icons-material/Info';
 const Article = ({ article }) => {
     const [open, setOpen] = useState(false);
     const [currentItem, setCurrentItem] = useState(null)
+    const [currentType, setCurrentType] = useState(null)
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -16,8 +17,9 @@ const Article = ({ article }) => {
 
     const user = useSelector((state) => state.auth)
 
-    const handleOpenPopup = (item) => {
+    const handleOpenPopup = (item, type) => {
         setCurrentItem(prev => prev = item)
+        setCurrentType(prev => prev = type)
         handleClickOpen()
     }
 
@@ -41,9 +43,9 @@ const Article = ({ article }) => {
                 <List>
                     {article.materials.map(item => {
                         if (user.user) {
-                            return <ListItem onClick={() => handleOpenPopup(item)} sx={{ color: userHasTool(item) ? 'green' : "red", cursor: 'pointer' }} key={item.name}>{item.name}<InfoIcon /></ListItem>
+                            return <ListItem onClick={() => handleOpenPopup(item, 'material')} sx={{ color: userHasTool(item) ? 'green' : "red", cursor: 'pointer' }} key={item.name}>{item.name}<InfoIcon /></ListItem>
                         } else {
-                            return <ListItem onClick={() => handleOpenPopup(item)} key={item.name}>{item.name}<InfoIcon /></ListItem>
+                            return <ListItem onClick={() => handleOpenPopup(item, 'material')} key={item.name}>{item.name}<InfoIcon /></ListItem>
                         }
                     })}
                 </List>
@@ -53,9 +55,9 @@ const Article = ({ article }) => {
                 <List>
                     {article.tools.map(item => {
                         if (user.user) {
-                            return <ListItem onClick={() => handleOpenPopup(item)} sx={{ color: userHasTool(item) ? 'green' : "red", cursor: 'pointer' }} key={item.name}>{item.name}<InfoIcon /></ListItem>
+                            return <ListItem onClick={() => handleOpenPopup(item, 'tool')} sx={{ color: userHasTool(item) ? 'green' : "red", cursor: 'pointer' }} key={item.name}>{item.name}<InfoIcon /></ListItem>
                         } else {
-                            return <ListItem onClick={() => handleOpenPopup(item)} key={item.name}>{item.name}<InfoIcon /></ListItem>
+                            return <ListItem onClick={() => handleOpenPopup(item, 'tool')} key={item.name}>{item.name}<InfoIcon /></ListItem>
                         }
                     })}
                 </List>
@@ -65,7 +67,7 @@ const Article = ({ article }) => {
                 <ul>
                     {article.props.map(item => <li key={item}>{item}</li>)}
                 </ul>
-                <ItemPopup open={open} setOpen={setOpen} item={currentItem} />
+                <ItemPopup open={open} setOpen={setOpen} item={currentItem} type={currentType} />
             </Box>
         </Card>
     )
