@@ -41,7 +41,7 @@ const Article = ({ article }) => {
             <Box sx={{ gridArea: '5 / 1 / 8 / 4' }}>
                 <Typography>Materials Required:</Typography>
                 <List>
-                    {article.materials.map(item => {
+                    {user.user && article.materials.map(item => {
                         if (user.user) {
                             return <ListItem onClick={() => handleOpenPopup(item, 'material')} sx={{ color: userHasTool(item) ? 'green' : "red", cursor: 'pointer' }} key={item.name}>{item.name}<InfoIcon /></ListItem>
                         } else {
@@ -53,7 +53,7 @@ const Article = ({ article }) => {
             <Box sx={{ gridArea: '8 / 1 / 11 / 4' }}>
                 <Typography>Tools Required:</Typography>
                 <List>
-                    {article.tools.map(item => {
+                    {user.user && article.tools.map(item => {
                         if (user.user) {
                             return <ListItem onClick={() => handleOpenPopup(item, 'tool')} sx={{ color: userHasTool(item) ? 'green' : "red", cursor: 'pointer' }} key={item.name}>{item.name}<InfoIcon /></ListItem>
                         } else {

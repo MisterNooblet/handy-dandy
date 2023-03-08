@@ -3,7 +3,6 @@ import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
@@ -39,12 +38,12 @@ export default function ResponsiveDialog({ setOpen, open, item, type }) {
                     {item && item.name}
                 </DialogTitle>
                 <DialogContent>
-                    <DialogContentText>
+                    <>
                         <List>
 
-                            {item && item.props.map(prop => prop.length > 0 && <ListItem>{prop}</ListItem>)}
+                            {item && item.props.map(prop => prop.length > 0 && <ListItem key={prop}>{prop}</ListItem>)}
                         </List>
-                    </DialogContentText>
+                    </>
                 </DialogContent>
                 <DialogActions>
                     <Button autoFocus onClick={handleClose}>
@@ -55,7 +54,7 @@ export default function ResponsiveDialog({ setOpen, open, item, type }) {
                             handleClose()
 
                         }} autoFocus>
-                            Read more on wiki
+                            Read more in Tool-O-Pedia
                         </Button>
                     </Link>
                 </DialogActions>
