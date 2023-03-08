@@ -8,18 +8,32 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import { List, ListItem } from '@mui/material';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { arrayUnion, doc, updateDoc } from 'firebase/firestore';
+import { db } from '../../../utils/fireBaseConfig';
+import { updateToolbox } from '../../../store/authSlice';
 
 const paths = {
     tools: 'wiki/tools/p/',
     materials: 'wiki/materials/p/'
 }
 
-export default function ResponsiveDialog({ setOpen, open, item, type }) {
-    console.log(item);
+export default function ResponsiveDialog({ setOpen, open, item, type, hasItem, setHasItem }) {
+    console.log(hasItem);
+    const user = useSelector((state) => state.auth)
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
+    const dispatch = useDispatch()
 
+    const addNewItemToToolbox = async () => {
+        const toolCatRef = doc(db, `users`, user.user.uid);
+
+        await updateDoc(toolCatRef, {
+            toolbox: arrayUnion({ ...item })
+        });
+        dispatch(updateToolbox(item))
+    }
 
     const handleClose = () => {
         setOpen(false);
@@ -57,6 +71,12 @@ export default function ResponsiveDialog({ setOpen, open, item, type }) {
                             Read more in Tool-O-Pedia
                         </Button>
                     </Link>
+                    {user.user && <Button onClick={() => {
+                        setHasItem(prev => prev = !prev)
+                        addNewItemToToolbox()
+                    }} autoFocus disabled={hasItem && true}>
+                        {hasItem ? 'In toolbox' : 'Add to toolbox'}
+                    </Button>}
                 </DialogActions>
             </Dialog>
         </div>

@@ -10,6 +10,7 @@ const Article = ({ article }) => {
     const [open, setOpen] = useState(false);
     const [currentItem, setCurrentItem] = useState(null)
     const [currentType, setCurrentType] = useState(null)
+    const [hasItem, setHasItem] = useState(null)
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -17,9 +18,10 @@ const Article = ({ article }) => {
 
     const user = useSelector((state) => state.auth)
 
-    const handleOpenPopup = (item, type) => {
+    const handleOpenPopup = (item, type, hasCurrentItem) => {
         setCurrentItem(prev => prev = item)
         setCurrentType(prev => prev = type)
+        setHasItem(prev => prev = hasCurrentItem)
         handleClickOpen()
     }
 
@@ -41,12 +43,13 @@ const Article = ({ article }) => {
             <Box sx={{ gridArea: '5 / 1 / 8 / 4' }}>
                 <Typography>Materials Required:</Typography>
                 <List>
-                    {user.user && article.materials.map(item => {
-                        if (user.user) {
-                            return <ListItem onClick={() => handleOpenPopup(item, 'material')} sx={{ color: userHasTool(item) ? 'green' : "red", cursor: 'pointer' }} key={item.name}>{item.name}<InfoIcon /></ListItem>
-                        } else {
-                            return <ListItem onClick={() => handleOpenPopup(item, 'material')} key={item.name}>{item.name}<InfoIcon /></ListItem>
-                        }
+                    {article.materials.map(item => {
+                        return (<ListItem onClick={() => handleOpenPopup(item, 'material', userHasTool(item))}
+                            sx={user.user && { color: userHasTool(item) ? 'green' : "red", cursor: 'pointer' }}
+                            key={item.name}>
+                            {item.name}<InfoIcon />
+                        </ListItem>
+                        )
                     })}
                 </List>
             </Box>
@@ -54,11 +57,12 @@ const Article = ({ article }) => {
                 <Typography>Tools Required:</Typography>
                 <List>
                     {user.user && article.tools.map(item => {
-                        if (user.user) {
-                            return <ListItem onClick={() => handleOpenPopup(item, 'tool')} sx={{ color: userHasTool(item) ? 'green' : "red", cursor: 'pointer' }} key={item.name}>{item.name}<InfoIcon /></ListItem>
-                        } else {
-                            return <ListItem onClick={() => handleOpenPopup(item, 'tool')} key={item.name}>{item.name}<InfoIcon /></ListItem>
-                        }
+                        return (<ListItem onClick={() => handleOpenPopup(item, 'material', userHasTool(item))}
+                            sx={user.user && { color: userHasTool(item) ? 'green' : "red", cursor: 'pointer' }}
+                            key={item.name}>
+                            {item.name}<InfoIcon />
+                        </ListItem>
+                        )
                     })}
                 </List>
             </Box>
@@ -67,7 +71,7 @@ const Article = ({ article }) => {
                 <ul>
                     {article.props.map(item => <li key={item}>{item}</li>)}
                 </ul>
-                <ItemPopup open={open} setOpen={setOpen} item={currentItem} type={currentType} />
+                <ItemPopup open={open} setOpen={setOpen} item={currentItem} type={currentType} hasItem={hasItem} setHasItem={setHasItem} />
             </Box>
         </Card>
     )
