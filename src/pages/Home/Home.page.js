@@ -55,8 +55,8 @@ const Home = () => {
     // const dispatch = useDispatch()
     return (
         <>
-            {categories && <AutoComplete label={'Category'} array={categories} setCategory={setCategory} />}
-            {articleNames && <AutoComplete label={'Article'} array={articleNames} setCategory={setArticle} />}
+            <AutoComplete label={'Category'} array={categories} setCategory={setCategory} />
+            <AutoComplete label={'Article'} array={articleNames} setCategory={setArticle} />
             {!article && <Intro />}
             {articleToDisplay && articleToDisplay.length > 0 && <Article article={articleToDisplay[0]} />}
         </>
