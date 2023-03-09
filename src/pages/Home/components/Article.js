@@ -34,46 +34,52 @@ const Article = ({ article }) => {
     }
 
     return (
-        <Card sx={{ padding: 5, display: 'grid', gridTemplateColumns: 'repeat(9, 1fr)', gridTemplateRows: 'repeat(12, 1fr)' }}>
-            <Typography textAlign={'center'} component={'h3'} variant='h3' sx={{ gridArea: '1 / 1 / 2 / 10' }} >
+        <Card sx={{ padding: 5, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <Typography textAlign={'center'} component={'h3'} variant='h3' >
                 {article.name}
             </Typography>
-            <Box component={'img'} sx={{ background: `url('${article.image}') center center/contain no-repeat`, width: { xs: 300 }, height: { xs: 300 }, gridArea: '2 / 1 / 5 / 4' }} />
-            <Typography sx={{ gridArea: '2/4/13/10' }}>{article.description}</Typography>
-            <Box sx={{ gridArea: '5 / 1 / 8 / 4' }}>
-                <Typography>Materials Required:</Typography>
-                <List>
-                    {article.materials.map(item => {
-                        return (<ListItem onClick={() => handleOpenPopup(item, 'material', userHasTool(item))}
-                            sx={user.user && { color: userHasTool(item) ? 'green' : "red", cursor: 'pointer' }}
-                            key={item.name}>
-                            {item.name}<InfoIcon />
-                        </ListItem>
-                        )
-                    })}
-                </List>
+            <Box sx={{ mb: 5, display: 'flex', flexDirection: { xs: 'column' }, justifyContent: 'center', alignItems: 'center' }}>
+
+                <Box component={'div'} sx={{ background: `url('${article.image}') center center/contain no-repeat`, width: '300px', height: '300px', boxSizing: 'border-box', flexGrow: 1 }} />
+                <Typography width={'fit-content'} >{article.description}</Typography>
             </Box>
-            <Box sx={{ gridArea: '8 / 1 / 11 / 4' }}>
-                <Typography>Tools Required:</Typography>
-                <List>
-                    {user.user && article.tools.map(item => {
-                        return (<ListItem onClick={() => handleOpenPopup(item, 'material', userHasTool(item))}
-                            sx={user.user && { color: userHasTool(item) ? 'green' : "red", cursor: 'pointer' }}
-                            key={item.name}>
-                            {item.name}<InfoIcon />
-                        </ListItem>
-                        )
-                    })}
-                </List>
+            <Box sx={{ width: '100%', display: 'flex', flexDirection: { xs: 'column', md: 'row' }, justifyContent: 'space-around', flexWrap: 'wrap' }}>
+                <Box >
+                    <Typography>Materials Required:</Typography>
+                    <List>
+                        {article.materials.map(item => {
+                            return (<ListItem onClick={() => handleOpenPopup(item, 'material', userHasTool(item))}
+                                sx={user.user && { color: userHasTool(item) ? 'green' : "red", cursor: 'pointer' }}
+                                key={item.name}>
+                                {item.name}<InfoIcon />
+                            </ListItem>
+                            )
+                        })}
+                    </List>
+                </Box>
+                <Box >
+                    <Typography >Tools Required:</Typography>
+                    <List>
+                        {article.tools.map(item => {
+                            return (<ListItem onClick={() => handleOpenPopup(item, 'tool', userHasTool(item))}
+                                sx={user.user && { color: userHasTool(item) ? 'green' : "red", cursor: 'pointer' }}
+                                key={item.name}>
+                                {item.name}<InfoIcon />
+                            </ListItem>
+                            )
+                        })}
+                    </List>
+                </Box>
+                <Box >
+                    <Typography>Our Tips for the job:</Typography>
+                    <List>
+                        {article.props.map(item => <ListItem key={item}>{item}</ListItem>)}
+                    </List>
+                    <ItemPopup open={open} setOpen={setOpen} item={currentItem} type={currentType} hasItem={hasItem} setHasItem={setHasItem} />
+                </Box>
             </Box>
-            <Box sx={{ gridArea: '11 / 1 / 13 / 4' }}>
-                <Typography>Our Tips for the job:</Typography>
-                <ul>
-                    {article.props.map(item => <li key={item}>{item}</li>)}
-                </ul>
-                <ItemPopup open={open} setOpen={setOpen} item={currentItem} type={currentType} hasItem={hasItem} setHasItem={setHasItem} />
-            </Box>
-        </Card>
+        </Card >
+
     )
 }
 

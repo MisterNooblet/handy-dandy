@@ -4,7 +4,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 
 export default function ComboBox({ label, array, visibility, setCategory, title }) {
     return (
-        <Autocomplete sx={{ visibility: visibility }}
+        <Autocomplete sx={{ visibility: visibility, m: setCategory ? '20px 0' : '0' }}
             onChange={(e) => setCategory && setCategory(prev => prev = e.target.innerHTML)}
             disablePortal
             options={array}

@@ -53,13 +53,10 @@ const CardBox = ({ params, array, isItem }) => {
                             }}
                         >
                             <CardMedia
-                                component="img"
-                                sx={{
-                                    // 16:9
-                                    pt: '0',
-                                }}
-                                image={card.image}
-                                alt={card.title}
+                                component="div"
+                                sx={{ background: `url('${card.image}')  center/cover no-repeat`, objectFit: 'scale-down', width: '100%', height: '150px' }}
+
+                                alt={card.name}
                             />
                             <CardContent sx={{ flexGrow: 1 }}>
                                 <Typography gutterBottom variant="h5" component="h2">
@@ -85,7 +82,7 @@ const CardBox = ({ params, array, isItem }) => {
                     <Typography component={'h3'} variant={'h3'}>No data yet..</Typography>
                     <Button onClick={() => { navigate(-1) }}>Go Back?</Button></Box>}
                 {results.map((card) => (
-                    <Grid item key={Math.random()} xs={12} sm={6} md={4}>
+                    <Grid item key={Math.random()} xs={12} sm={6} md={4} m={3}>
                         <Card
                             sx={{
                                 height: '100%',
@@ -94,12 +91,9 @@ const CardBox = ({ params, array, isItem }) => {
                             }}
                         >
                             <CardMedia
-                                component="img"
-                                sx={{
-                                    // 16:9
-                                    pt: '0',
-                                }}
-                                image={card.image}
+                                component="div"
+                                sx={{ background: `url('${card.image}')  center/cover no-repeat`, objectFit: 'scale-down', width: '100%', height: '125px' }}
+
                                 alt={card.name}
                             />
                             <CardContent sx={{ flexGrow: 1 }}>
@@ -117,6 +111,7 @@ const CardBox = ({ params, array, isItem }) => {
                         </Card>
                     </Grid>
                 ))}
+
             </>
         )
     }
