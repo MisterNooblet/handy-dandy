@@ -4,7 +4,7 @@ import { db, storage } from '../../../utils/fireBaseConfig';
 import { Box } from '@mui/system';
 import TextField from '@mui/material/TextField';
 import TextareaAutosize from '@mui/base/TextareaAutosize';
-import { Button, FormControl, Input, NativeSelect } from '@mui/material';
+import { Button, FormControl, NativeSelect } from '@mui/material';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import ProgressBar from './ProgressBar';
 import RequirementManager from './RequirementManager';
@@ -76,6 +76,7 @@ const ArticleManager = () => {
     }, [])
 
     const handleUpload = () => {
+        if (!formData.file.name.match(/\.(jpg|jpeg|png|gif|bmp)$/)) return
         const storageRef = ref(storage, `/articleimages/${Math.random()}${formData.file.name}`);
 
         const uploadTask = uploadBytesResumable(storageRef, formData.file);
@@ -151,7 +152,7 @@ const ArticleManager = () => {
             <TextField id="itemProps" name='itemProps' label={`Article short tips seperated by | ex: Dangerous | Wear safety gear`} variant="standard" value={formData.properties} onChange={(e) => formDispatch({ type: 'updateProps', value: e.target.value })} />
             <RequirementManager target={'tools'} neededTools={neededTools} neededMaterials={neededMaterials} setNeededMaterials={setNeededMaterials} setNeededTools={setNeededTools} />
             <RequirementManager target={'materials'} neededTools={neededTools} neededMaterials={neededMaterials} setNeededMaterials={setNeededMaterials} setNeededTools={setNeededTools} />
-            <Input type='file' id='imageFile' name='imageFile' onChange={handleFileChange} />
+            <input type='file' id='imageFile' name='imageFile' accept='image/*' onChange={handleFileChange} />
             {percent > 0 && <ProgressBar value={percent} />}
             {formData.file && <><Button onClick={handleUpload} type='button'>Upload image</Button></>}
             <Button type='submit' disabled={percent !== 100 && true} >Add Article</Button>

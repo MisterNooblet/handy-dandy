@@ -117,7 +117,7 @@ function Navbar() {
                         variant="h5"
                         noWrap
                         component="a"
-                        href=""
+                        href="/"
                         sx={{
                             mr: 2,
                             display: { xs: 'flex', md: 'none' },
@@ -129,9 +129,7 @@ function Navbar() {
                             textDecoration: 'none',
                         }}
                     >
-                        <NavLink to={'/'}>
-                            HANDY DANDY
-                        </NavLink>
+                        HANDY DANDY
                     </Typography>
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                         {pages.map((page) => (
@@ -158,7 +156,7 @@ function Navbar() {
                     <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <Avatar alt={user.user && user.user.displayName} src={user.user && user.user.photoURL ? user.user.photoURL : '/'} />
+                                <Avatar alt={user.user && user.user.displayName} src={user.user && user.user.photoUrl ? user.user.photoUrl : '/'} />
                             </IconButton>
                         </Tooltip>
                         <Menu

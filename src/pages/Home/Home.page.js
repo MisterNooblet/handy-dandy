@@ -5,9 +5,9 @@ import { dataFetcher } from '../../utils'
 import Article from './components/Article'
 
 const Home = () => {
-    const [categories, setCategories] = useState(null)
+    const [categories, setCategories] = useState([])
     const [category, setCategory] = useState(null)
-    const [articleNames, setArticleNames] = useState(null)
+    const [articleNames, setArticleNames] = useState([])
     const [articles, setArticles] = useState(null)
     const [article, setArticle] = useState(null)
     const [articleToDisplay, setArticleToDisplay] = useState(null)

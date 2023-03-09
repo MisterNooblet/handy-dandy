@@ -21,13 +21,25 @@ const fireBaseAuth = {
 
     },
 
-    updateUser(firstName, lastName, country, photo) {
+    updateUser(firstName, lastName, country) {
         const auth = getAuth();
         updateProfile(auth.currentUser, {
             displayName: `${firstName} ${lastName}`
         }).then(() => {
             // Profile updated!
             this.addExtraInfo(country, auth.currentUser.uid)
+
+            // ...
+        }).catch((error) => {
+            // An error occurred
+            // ...
+        });
+    },
+    updateUserPfp(photoUrl) {
+        const auth = getAuth();
+        updateProfile(auth.currentUser, {
+            photoURL: photoUrl
+        }).then(() => {
 
             // ...
         }).catch((error) => {

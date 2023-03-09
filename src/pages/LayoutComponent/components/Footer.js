@@ -1,7 +1,7 @@
 import React from 'react'
 import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
-import { BottomNavigation } from '@mui/material';
+import { Box } from '@mui/material';
 
 
 function Copyright(props) {
@@ -19,9 +19,9 @@ function Copyright(props) {
 
 const Footer = () => {
     return (
-        <BottomNavigation sx={{ background: '#40513B', display: 'flex', justifyContent: 'center', alignItems: "center" }}>
+        <Box sx={{ background: '#40513B', display: 'flex', justifyContent: 'center', alignItems: "center" }}>
             <Copyright sx={{ mt: 5, background: '#40513B', margin: '20px 0' }} />
-        </BottomNavigation>
+        </Box>
 
     )
 }

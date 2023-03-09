@@ -14,12 +14,15 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import fireBaseAuth from '../../utils/fireBaseAuth';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { updateUserPfp } from '../../store/authSlice';
 
 
 const theme = createTheme();
 
 export default function Login() {
     const navigate = useNavigate()
+    const dispatch = useDispatch()
 
     const [errorMsg, setErrorMsg] = React.useState(null)
 
@@ -30,6 +33,7 @@ export default function Login() {
         const password = data.get('password')
         const response = await fireBaseAuth.signIn(email, password)
         if (response.uid !== undefined) {
+            dispatch(updateUserPfp(response.photoURL))
             navigate('/')
         } else {
             if (response.message.includes('password')) {
