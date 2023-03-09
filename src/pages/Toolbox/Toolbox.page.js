@@ -63,7 +63,12 @@ const Toolbox = () => {
                 {user.userExtras.toolbox.length === 0 ? <div>Toolbox empty</div> : (
                     <Box component={'div'} sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, height: '100%' }}>
                         <Box component={'div'} sx={{ height: { xs: listHeight, md: '80vh' } }}>
-                            <List sx={{ width: { xs: '100%', md: '360px' }, height: '100%', overflowY: 'scroll', bgcolor: 'background.paper' }}>
+                            <List className='custom_scroller' sx={{
+                                width: { xs: '100%', md: '360px' },
+                                height: '100%',
+                                overflowY: 'scroll',
+                                bgcolor: 'background.paper',
+                            }}>
                                 {user.userExtras.toolbox.map((value, idx) => {
                                     const labelId = `checkbox-list-label-${value.name}`;
 

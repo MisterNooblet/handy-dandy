@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material'
+import { Box, List, ListItem, Typography } from '@mui/material'
 import React from 'react'
 
 const ItemInfo = ({ item }) => {
@@ -10,10 +10,11 @@ const ItemInfo = ({ item }) => {
                 <Box component={'img'} sx={{ background: `url(${image}) center center/contain no-repeat`, height: { xs: '100px', md: '300px' }, width: { xs: '100px', md: '300px' } }} />
             </Box>
             <Box p={4} sx={{ display: 'flex', flexDirection: 'column' }}>
-                <Typography variant='p'>{description}</Typography>
-                <ul>
-                    {props && props.map(prop => prop.length > 0 ? <li key={prop}>{prop}</li> : null)}
-                </ul>
+                <Typography variant='p' mb={2}>{description}</Typography>
+                <Typography variant='body2'>Item Properties:</Typography>
+                <List>
+                    {props && props.map(prop => prop.length > 0 ? <ListItem key={prop}>{prop}</ListItem> : null)}
+                </List>
             </Box>
         </Box>
     )

@@ -34,7 +34,7 @@ const Article = ({ article }) => {
     }
 
     return (
-        <Card sx={{ padding: 5, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <Card sx={{ padding: 5, display: 'flex', flexDirection: 'column', alignItems: 'center', mb: 4 }}>
             <Typography textAlign={'center'} component={'h3'} variant='h3' >
                 {article.name}
             </Typography>
@@ -44,7 +44,7 @@ const Article = ({ article }) => {
                 <Typography width={'fit-content'} >{article.description}</Typography>
             </Box>
             <Box sx={{ width: '100%', display: 'flex', flexDirection: { xs: 'column', md: 'row' }, justifyContent: 'space-around', flexWrap: 'wrap' }}>
-                <Box >
+                <Card sx={{ bgcolor: 'background.default' }}>
                     <Typography>Materials Required:</Typography>
                     <List>
                         {article.materials.map(item => {
@@ -56,8 +56,8 @@ const Article = ({ article }) => {
                             )
                         })}
                     </List>
-                </Box>
-                <Box >
+                </Card>
+                <Card sx={{ bgcolor: 'background.default' }}>
                     <Typography >Tools Required:</Typography>
                     <List>
                         {article.tools.map(item => {
@@ -69,14 +69,14 @@ const Article = ({ article }) => {
                             )
                         })}
                     </List>
-                </Box>
-                <Box >
+                </Card>
+                <Card sx={{ bgcolor: 'background.default' }}>
                     <Typography>Our Tips for the job:</Typography>
                     <List>
                         {article.props.map(item => <ListItem key={item}>{item}</ListItem>)}
                     </List>
                     <ItemPopup open={open} setOpen={setOpen} item={currentItem} type={currentType} hasItem={hasItem} setHasItem={setHasItem} />
-                </Box>
+                </Card>
             </Box>
         </Card >
 

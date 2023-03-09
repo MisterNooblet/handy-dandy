@@ -8,10 +8,10 @@ import image from '../assets/logo.png';
 const Intro = () => {
   return (
     <>
-      <Card fullwidth='true'>
+      <Card fullwidth='true' sx={{ mb: 4 }}>
         <CardMedia
           component="img"
-          alt="green iguana"
+          alt="Handy Dandy logo"
           image={image}
         />
         <CardContent>
@@ -23,7 +23,7 @@ const Intro = () => {
           >
             Who are We?
           </Typography> */}
-          <Typography sx={{ m: { md: '20px 60px' } }} variant="body2" color="text.secondary" lineHeight={'2'}>
+          <Typography sx={{ m: { md: '20px 60px' } }} variant="body1" color="text.secondary" lineHeight={'2'}>
             If you're considering hanging an object on a wall or attempting to change an oil filter in your car without prior experience or uncertainty about the necessary tools, you can rest easy knowing that we're here to assist you.<br />
             Our collection of articles covers a range of do-it-yourself tasks both indoors and outdoors, making it easy for you to find the information you need to complete your project.
             <br />Feel free to browse our selection of articles by clicking the link at the top of the page.
