@@ -10,6 +10,7 @@ import ProgressBar from './ProgressBar';
 import RequirementManager from './RequirementManager';
 import { normalizeCC } from '../../../utils/normalizeCamelCase';
 import { dataFetcher } from '../../../utils';
+import { useSelector } from 'react-redux';
 
 const formInitialState = {
     title: '',
@@ -58,6 +59,8 @@ const ArticleManager = () => {
     const [neededMaterials, setNeededMaterials] = useState(null)
     const [categories, setCategories] = useState(null)
     const [category, setCategory] = useState(null)
+
+    const user = useSelector((state) => state.auth)
 
     function handleFileChange(event) {
         const file = event.target.files[0]
@@ -111,7 +114,7 @@ const ArticleManager = () => {
         const itemProps = data.get('itemProps').split('|').map(str => str.trim())
         const imageFile = formData.imageSrc
         const articleText = data.get('shortDescription')
-        const articleObj = { name: itemTitle, description: articleText, image: imageFile, props: itemProps, category: category, tools: neededTools, materials: neededMaterials }
+        const articleObj = { name: itemTitle, description: articleText, image: imageFile, props: itemProps, category: category, tools: neededTools, materials: neededMaterials, author: user.user.displayName, authorImg: user.user.photoUrl }
         if (category && itemTitle && itemProps.length > 0 && imageFile && articleText) {
             addNewItem(category, articleObj)
             formDispatch({ type: 'clearForm' })

@@ -1,4 +1,4 @@
-import { Card, List, ListItem, Typography } from '@mui/material'
+import { Card, CardMedia, List, ListItem, Typography } from '@mui/material'
 import { Box, } from '@mui/system'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
@@ -35,6 +35,8 @@ const Article = ({ article }) => {
 
     return (
         <Card sx={{ padding: 5, display: 'flex', flexDirection: 'column', alignItems: 'center', mb: 4 }}>
+            <Typography alignSelf={'start'}>Author:</Typography>
+            <Box display={'flex'} alignSelf='start' flexDirection='row' alignItems={"center"} mt={4}><CardMedia component={'img'} src={article.authorImg} sx={{ borderRadius: '50px', width: 50 }} /><Typography>{article.author} </Typography> </Box>
             <Typography textAlign={'center'} component={'h3'} variant='h3' >
                 {article.name}
             </Typography>

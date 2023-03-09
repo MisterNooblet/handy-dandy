@@ -10,7 +10,6 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link, useNavigate } from 'react-router-dom';
 import { validateEmail } from '../../utils/emailValidator';
 import AutoComplete from '../../components/AutoComplete'
@@ -18,9 +17,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchCountries } from '../../store/apiSlice';
 import fireBaseAuth from '../../utils/fireBaseAuth';
 
-
-
-const theme = createTheme();
 
 export default function Register() {
     const [errorMsg, setErroMsg] = React.useState(null)
@@ -72,116 +68,116 @@ export default function Register() {
 
 
     return (
-        <ThemeProvider theme={theme}>
-            <Container component="main" maxWidth="xs">
-                <CssBaseline />
-                <Box
-                    sx={{
-                        marginTop: 8,
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                    }}
-                >
-                    <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-                        <LockOutlinedIcon />
-                    </Avatar>
-                    <Typography component="h1" variant="h5">
-                        {errorMsg ? errorMsg.message : 'Sign up'}
-                    </Typography>
-                    <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
-                        <Grid container spacing={2}>
-                            <Grid item xs={12} sm={6}>
-                                <TextField
-                                    autoComplete="given-name"
-                                    name="firstName"
-                                    required
-                                    fullWidth
-                                    id="firstName"
-                                    label="First Name"
-                                    autoFocus
-                                    title='Please enter your First name'
-                                    sx={{ backgroundColor: errorMsg && errorMsg.code === 1 && 'rgba(245, 132, 132, 0.44)' }}
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={6}>
-                                <TextField
-                                    required
-                                    fullWidth
-                                    id="lastName"
-                                    label="Last Name"
-                                    name="lastName"
-                                    autoComplete="family-name"
-                                    title='Please enter your Last name'
-                                    sx={{ backgroundColor: errorMsg && errorMsg.code === 2 && 'rgba(245, 132, 132, 0.44)' }}
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <TextField
-                                    required
-                                    fullWidth
-                                    id="email"
-                                    label="Email Address"
-                                    name="email"
-                                    autoComplete="email"
-                                    title='Please enter a valid Email : example@somedomain.com'
-                                    sx={{ backgroundColor: errorMsg && errorMsg.code === 3 && 'rgba(245, 132, 132, 0.44)' }}
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <AutoComplete label={'Country'} array={api.countries} />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <TextField
-                                    required
-                                    fullWidth
-                                    name="password"
-                                    label="Password"
-                                    type="password"
-                                    id="password"
-                                    autoComplete="new-password"
-                                    title='Please enter a password atleast 8 characters long'
-                                    sx={{ backgroundColor: errorMsg && errorMsg.code === 4 && 'rgba(245, 132, 132, 0.44)' }}
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <TextField
-                                    required
-                                    fullWidth
-                                    name="password2"
-                                    label="Confirm Password"
-                                    type="password"
-                                    id="password2"
-                                    autoComplete="new-password"
-                                    title='Please confirm your password'
-                                    sx={{ backgroundColor: errorMsg && errorMsg.code === 5 && 'rgba(245, 132, 132, 0.44)' }}
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <FormControlLabel
-                                    control={<Checkbox value={'true'} color="primary" name='checkbox' id='checkbox' />}
-                                    label="I want to receive inspiration, marketing promotions and updates via email."
-                                />
-                            </Grid>
+
+        <Container component="main" maxWidth="xs">
+            <CssBaseline />
+            <Box
+                sx={{
+                    marginTop: 8,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                }}
+            >
+                <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+                    <LockOutlinedIcon />
+                </Avatar>
+                <Typography component="h1" variant="h5">
+                    {errorMsg ? errorMsg.message : 'Sign up'}
+                </Typography>
+                <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+                    <Grid container spacing={2}>
+                        <Grid item xs={12} sm={6}>
+                            <TextField
+                                autoComplete="given-name"
+                                name="firstName"
+                                required
+                                fullWidth
+                                id="firstName"
+                                label="First Name"
+                                autoFocus
+                                title='Please enter your First name'
+                                sx={{ backgroundColor: errorMsg && errorMsg.code === 1 && 'rgba(245, 132, 132, 0.44)' }}
+                            />
                         </Grid>
-                        <Button
-                            type="submit"
-                            fullWidth
-                            variant="contained"
-                            sx={{ mt: 3, mb: 2 }}
-                        >
-                            Sign Up
-                        </Button>
-                        <Grid container justifyContent="flex-end">
-                            <Grid item>
-                                <Link to={'/login'}>
-                                    <Typography color={'blue'}>Already have an account? Sign in</Typography>
-                                </Link>
-                            </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <TextField
+                                required
+                                fullWidth
+                                id="lastName"
+                                label="Last Name"
+                                name="lastName"
+                                autoComplete="family-name"
+                                title='Please enter your Last name'
+                                sx={{ backgroundColor: errorMsg && errorMsg.code === 2 && 'rgba(245, 132, 132, 0.44)' }}
+                            />
                         </Grid>
-                    </Box>
+                        <Grid item xs={12}>
+                            <TextField
+                                required
+                                fullWidth
+                                id="email"
+                                label="Email Address"
+                                name="email"
+                                autoComplete="email"
+                                title='Please enter a valid Email : example@somedomain.com'
+                                sx={{ backgroundColor: errorMsg && errorMsg.code === 3 && 'rgba(245, 132, 132, 0.44)' }}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <AutoComplete label={'Country'} array={api.countries} />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                required
+                                fullWidth
+                                name="password"
+                                label="Password"
+                                type="password"
+                                id="password"
+                                autoComplete="new-password"
+                                title='Please enter a password atleast 8 characters long'
+                                sx={{ backgroundColor: errorMsg && errorMsg.code === 4 && 'rgba(245, 132, 132, 0.44)' }}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                required
+                                fullWidth
+                                name="password2"
+                                label="Confirm Password"
+                                type="password"
+                                id="password2"
+                                autoComplete="new-password"
+                                title='Please confirm your password'
+                                sx={{ backgroundColor: errorMsg && errorMsg.code === 5 && 'rgba(245, 132, 132, 0.44)' }}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <FormControlLabel
+                                control={<Checkbox value={'true'} color="primary" name='checkbox' id='checkbox' />}
+                                label="I want to receive inspiration, marketing promotions and updates via email."
+                            />
+                        </Grid>
+                    </Grid>
+                    <Button
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        sx={{ mt: 3, mb: 2 }}
+                    >
+                        Sign Up
+                    </Button>
+                    <Grid container justifyContent="flex-end">
+                        <Grid item>
+                            <Link to={'/login'}>
+                                <Typography color={'blue'}>Already have an account? Sign in</Typography>
+                            </Link>
+                        </Grid>
+                    </Grid>
                 </Box>
-            </Container>
-        </ThemeProvider>
+            </Box>
+        </Container>
+
     );
 }
