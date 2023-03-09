@@ -129,7 +129,9 @@ function Navbar() {
                             textDecoration: 'none',
                         }}
                     >
-                        HANDY DANDY
+                        <NavLink to={'/'}>
+                            HANDY DANDY
+                        </NavLink>
                     </Typography>
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                         {pages.map((page) => (

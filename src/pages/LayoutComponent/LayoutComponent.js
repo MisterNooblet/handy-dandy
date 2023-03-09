@@ -10,12 +10,21 @@ const theme = createTheme({
     palette: {
         mode: 'light',
         primary: {
-            main: '#3f51b5',
+            main: '#40513B',
         },
         secondary: {
             main: '#f50057',
         },
+        background: {
+            default: '#EDF1D6',
+            paper: '#9DC08B',
+        },
+        text: {
+            primary: '#000',
+            secondary: '#000',
+        }
     },
+
 })
 
 const LayoutComponent = () => {
@@ -24,7 +33,7 @@ const LayoutComponent = () => {
 
             <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
                 <Navbar />
-                <Container maxWidth='xl' sx={{ flexGrow: '1' }}>
+                <Container maxWidth='xl' sx={{ flexGrow: '1', backgroundColor: '#EDF1D6' }}>
                     <Outlet />
                 </Container>
                 <Footer />

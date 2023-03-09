@@ -1,13 +1,15 @@
 import React from 'react'
 import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
+import { BottomNavigation } from '@mui/material';
+
 
 function Copyright(props) {
     return (
-        <Typography variant="body2" component='div' color="text.secondary" sx={{ display: 'inline' }} {...props}>
+        <Typography variant="body2" component='div' color="#fff" sx={{ display: 'inline' }} {...props}>
             {'Copyright © '}
             <Link to={'/'}>
-                <Typography sx={{ display: 'inline' }} color={'black'} >Handy Dandy</Typography>
+                <Typography sx={{ display: 'inline' }} color={'#EDF1D6'} >Handy Dandy</Typography>
             </Link>{' '}
             {new Date().getFullYear()}
             {'.'}
@@ -17,7 +19,10 @@ function Copyright(props) {
 
 const Footer = () => {
     return (
-        <div><Copyright sx={{ mt: 5, textAlign: 'center' }} /></div>
+        <BottomNavigation sx={{ background: '#40513B', display: 'flex', justifyContent: 'center', alignItems: "center" }}>
+            <Copyright sx={{ mt: 5, background: '#40513B', margin: '20px 0' }} />
+        </BottomNavigation>
+
     )
 }
 
