@@ -1,16 +1,15 @@
 import React, { useEffect, useReducer, useState } from 'react'
 import { arrayUnion, doc, updateDoc, } from "firebase/firestore";
-import { db, storage } from '../../../utils/fireBaseConfig';
+import { db } from '../../../utils/fireBaseConfig';
 import { Box } from '@mui/system';
 import FormControl from '@mui/material/FormControl';
 import NativeSelect from '@mui/material/NativeSelect';
 import TextField from '@mui/material/TextField';
 import TextareaAutosize from '@mui/base/TextareaAutosize';
-import { Button, Input } from '@mui/material';
-import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
-import ProgressBar from './ProgressBar';
+import { Button } from '@mui/material';
 import { normalizeCC } from '../../../utils/normalizeCamelCase';
 import { dataFetcher } from '../../../utils';
+import ImageUpload from '../../../components/ImageUpload';
 
 const initialState = {
     categories: null,
@@ -83,8 +82,6 @@ const ItemManager = ({ type }) => {
     const [formData, formDispatch] = useReducer(formReducer, formInitialState)
     const [percent, setPercent] = useState(0)
 
-
-
     const getItemCategories = async () => {
         const categoryIds = await dataFetcher.getItemCategories(`${type}s`)
         dispatch({ type: 'setCategories', categories: categoryIds })
@@ -110,33 +107,6 @@ const ItemManager = ({ type }) => {
         getItemSubCategories()
         //eslint-disable-next-line
     }, [categories.currentCategory])
-
-    function handleFileChange(event) {
-        const file = event.target.files[0]
-
-        formDispatch({ type: 'updateFile', value: file })
-    }
-
-
-    const handleUpload = () => {
-        const storageRef = ref(storage, `/${type}images/${Math.random()}${formData.file.name}`);
-
-        const uploadTask = uploadBytesResumable(storageRef, formData.file);
-
-        uploadTask.on(
-            "state_changed",
-            (snapshot) => {
-                const percent = Math.round(
-                    (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-                );
-                setPercent(percent);
-            },
-            (err) => console.log(err),
-            () => {
-                getDownloadURL(uploadTask.snapshot.ref).then((url) => { formDispatch({ type: 'updateImageSrc', value: url }) });
-            }
-        );
-    };
 
     const addNewItem = async (category, subCategory, tool) => {
         const toolCatRef = doc(db, `${type}s`, category);
@@ -196,9 +166,7 @@ const ItemManager = ({ type }) => {
                 id: 'itemTitle',
             }} label={`${type} Title`} variant="standard" value={formData.title} onChange={(e) => formDispatch({ type: 'updateTitle', value: e.target.value })} />
             <TextField id="itemProps" name='itemProps' label={`${type} properties seperated by | ex: Good grip | Sturdy`} variant="standard" value={formData.properties} onChange={(e) => formDispatch({ type: 'updateProps', value: e.target.value })} />
-            <Input type='file' id='imageFile' name='imageFile' onChange={handleFileChange} />
-            {percent > 0 && <ProgressBar value={percent} />}
-            {formData.file && <><Button onClick={handleUpload} type='button'>Upload image</Button></>}
+            <ImageUpload type={'item'} location={`${type}images`} percentControl={setPercent} urlControl={formDispatch} />
             <TextareaAutosize
                 value={formData.description} onChange={(e) => formDispatch({ type: 'updateDescription', value: e.target.value })}
                 aria-label="minimum height"

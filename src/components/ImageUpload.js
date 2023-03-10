@@ -7,7 +7,7 @@ import { fireBaseAuth } from '../utils';
 import { storage } from '../utils/fireBaseConfig';
 import ProgressBar from './ProgressBar';
 
-const ImageUpload = () => {
+const ImageUpload = ({ location, type, percentControl, urlControl }) => {
     const [file, setFile] = useState(null)
     const [percent, setPercent] = useState(0)
     const dispatch = useDispatch()
@@ -21,7 +21,7 @@ const ImageUpload = () => {
     const handleUpload = () => {
         if (!file) return
         if (!file.name.match(/\.(jpg|jpeg|png|gif|bmp)$/)) return
-        const storageRef = ref(storage, `/userpfps/${Math.random()}${file.name}`);
+        const storageRef = ref(storage, `/${location}/${Math.random()}${file.name}`);
 
         const uploadTask = uploadBytesResumable(storageRef, file);
 
@@ -31,13 +31,20 @@ const ImageUpload = () => {
                 const percent = Math.round(
                     (snapshot.bytesTransferred / snapshot.totalBytes) * 100
                 );
+                if (percentControl) {
+                    percentControl(percent)
+                }
                 setPercent(percent);
             },
             (err) => console.log(err),
             () => {
                 getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-                    dispatch(updateUserPfp(url))
-                    fireBaseAuth.updateUserPfp(url)
+                    if (type === 'pfp') {
+                        dispatch(updateUserPfp(url))
+                        fireBaseAuth.updateUserPfp(url)
+                    } else if (type === 'item') {
+                        urlControl({ type: 'updateImageSrc', value: url })
+                    }
                 })
             }
         );

@@ -1,16 +1,15 @@
 import React, { useReducer, useState } from 'react'
 import { arrayUnion, doc, updateDoc, } from "firebase/firestore";
-import { db, storage } from '../../../utils/fireBaseConfig';
+import { db } from '../../../utils/fireBaseConfig';
 import { Box } from '@mui/system';
 import TextField from '@mui/material/TextField';
 import TextareaAutosize from '@mui/base/TextareaAutosize';
 import { Button, FormControl, NativeSelect } from '@mui/material';
-import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
-import ProgressBar from './ProgressBar';
 import RequirementManager from './RequirementManager';
 import { normalizeCC } from '../../../utils/normalizeCamelCase';
 import { dataFetcher } from '../../../utils';
 import { useSelector } from 'react-redux';
+import ImageUpload from '../../../components/ImageUpload';
 
 const formInitialState = {
     title: '',
@@ -62,12 +61,6 @@ const ArticleManager = () => {
 
     const user = useSelector((state) => state.auth)
 
-    function handleFileChange(event) {
-        const file = event.target.files[0]
-
-        formDispatch({ type: 'updateFile', value: file })
-    }
-
     const getArticleCategories = async () => {
         const result = await dataFetcher.getItemCategories('articles')
         setCategories(prev => prev = result)
@@ -77,27 +70,6 @@ const ArticleManager = () => {
     useState(() => {
         getArticleCategories()
     }, [])
-
-    const handleUpload = () => {
-        if (!formData.file.name.match(/\.(jpg|jpeg|png|gif|bmp)$/)) return
-        const storageRef = ref(storage, `/articleimages/${Math.random()}${formData.file.name}`);
-
-        const uploadTask = uploadBytesResumable(storageRef, formData.file);
-
-        uploadTask.on(
-            "state_changed",
-            (snapshot) => {
-                const percent = Math.round(
-                    (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-                );
-                setPercent(percent);
-            },
-            (err) => console.log(err),
-            () => {
-                getDownloadURL(uploadTask.snapshot.ref).then((url) => { formDispatch({ type: 'updateImageSrc', value: url }) });
-            }
-        );
-    };
 
     const addNewItem = async (category, article) => {
         const toolCatRef = doc(db, `articles`, category);
@@ -119,6 +91,7 @@ const ArticleManager = () => {
             addNewItem(category, articleObj)
             formDispatch({ type: 'clearForm' })
             setPercent(0)
+            console.log(articleObj);
         }
     }
 
@@ -155,9 +128,7 @@ const ArticleManager = () => {
             <TextField id="itemProps" name='itemProps' label={`Article short tips seperated by | ex: Dangerous | Wear safety gear`} variant="standard" value={formData.properties} onChange={(e) => formDispatch({ type: 'updateProps', value: e.target.value })} />
             <RequirementManager target={'tools'} neededTools={neededTools} neededMaterials={neededMaterials} setNeededMaterials={setNeededMaterials} setNeededTools={setNeededTools} />
             <RequirementManager target={'materials'} neededTools={neededTools} neededMaterials={neededMaterials} setNeededMaterials={setNeededMaterials} setNeededTools={setNeededTools} />
-            <input type='file' id='imageFile' name='imageFile' accept='image/*' onChange={handleFileChange} />
-            {percent > 0 && <ProgressBar value={percent} />}
-            {formData.file && <><Button onClick={handleUpload} type='button'>Upload image</Button></>}
+            <ImageUpload type={'item'} location={'articleimages'} percentControl={setPercent} urlControl={formDispatch} />
             <Button type='submit' disabled={percent !== 100 && true} >Add Article</Button>
         </Box>
     )

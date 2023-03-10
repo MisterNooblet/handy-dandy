@@ -50,7 +50,7 @@ export default function ControlledAccordions() {
                 </AccordionSummary>
                 <AccordionDetails>
                     <Typography>
-                        <ImageUpload />
+                        <ImageUpload location={'userpfps'} type={'pfp'} />
                     </Typography>
                 </AccordionDetails>
             </Accordion>
