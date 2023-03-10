@@ -40,7 +40,7 @@ const Article = ({ article }) => {
             </Typography>
             <Box sx={{ mb: 5, display: 'flex', flexDirection: { xs: 'column' }, justifyContent: 'center', alignItems: 'center' }}>
                 <Box component={'div'} sx={{ background: `url('${article.image}') center center/contain no-repeat`, width: '300px', height: '300px', boxSizing: 'border-box', flexGrow: 1 }} />
-                <Typography width={'fit-content'} >{article.description.split('\n').map(txtline => { return <><br key={txtline} />{txtline}</> })}</Typography>
+                <Box component={'div'} width={'fit-content'} >{article.description.split('\n').map(txtline => { return <Typography key={Math.random()}><br />{txtline}</Typography> })}</Box>
             </Box>
             <Box sx={{ width: '100%', display: 'flex', flexDirection: { xs: 'column', md: 'row' }, justifyContent: 'space-around', flexWrap: 'wrap' }}>
                 <Card sx={{ bgcolor: 'background.default', mb: 4 }}>

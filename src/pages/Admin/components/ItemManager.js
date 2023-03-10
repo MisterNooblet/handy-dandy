@@ -88,9 +88,10 @@ const ItemManager = ({ type }) => {
     }
 
     const getItemSubCategories = async () => {
-        const subCategoryList = await dataFetcher.getItemSubCategories(`${type}s`, categories.currentCategory)
-
-        dispatch({ type: 'setSubCategories', subCategories: subCategoryList })
+        if (type && categories.currentCategory) {
+            const subCategoryList = await dataFetcher.getItemSubCategories(`${type}s`, categories.currentCategory)
+            dispatch({ type: 'setSubCategories', subCategories: subCategoryList })
+        }
     }
 
     useEffect(() => {

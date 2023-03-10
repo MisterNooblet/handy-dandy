@@ -13,6 +13,7 @@ const dataFetcher = {
     },
 
     async getItemSubCategories(collection, category) {
+
         let subCategoryList = []
         const docRef = doc(db, collection, category)
         const docSnap = await getDoc(docRef);
@@ -25,7 +26,11 @@ const dataFetcher = {
         } else {
             console.log("No such document!");
         }
-        return subCategoryList.sort()
+        if (subCategoryList.length > 0) {
+            return subCategoryList.sort()
+        } else {
+            return subCategoryList
+        }
     },
 
     async getArticles(category) {

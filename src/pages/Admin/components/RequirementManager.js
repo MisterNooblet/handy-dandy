@@ -72,8 +72,10 @@ const RequirementManager = ({ target, neededTools, neededMaterials, setNeededMat
     }
 
     const getItemSubCategories = async () => {
-        const subCategoryList = await dataFetcher.getItemSubCategories(target, categories.currentCategory)
-        toolDispatch({ type: 'setSubCategories', subCategories: subCategoryList })
+        if (target && categories.currentCategory) {
+            const subCategoryList = await dataFetcher.getItemSubCategories(target, categories.currentCategory)
+            toolDispatch({ type: 'setSubCategories', subCategories: subCategoryList })
+        }
     }
 
 
@@ -91,7 +93,7 @@ const RequirementManager = ({ target, neededTools, neededMaterials, setNeededMat
                                 id: 'itemCategory',
                             }}
                         >
-                            {categories.categories && categories.categories.map(cat => <option value={cat}>{normalizeCC(cat)}</option>)}
+                            {categories.categories && categories.categories.map(cat => <option key={cat} value={cat}>{normalizeCC(cat)}</option>)}
                         </NativeSelect>
                     </FormControl>
                 </Box>
@@ -104,7 +106,7 @@ const RequirementManager = ({ target, neededTools, neededMaterials, setNeededMat
                                 id: 'itemSubCategory',
                             }}
                         >
-                            {categories.subCategories && categories.subCategories.map(cat => cat !== 'categoryInfo' && <option value={cat}>{normalizeCC(cat)}</option>)}
+                            {categories.subCategories && categories.subCategories.map(cat => cat !== 'categoryInfo' && <option key={cat} value={cat}>{normalizeCC(cat)}</option>)}
                         </NativeSelect>
                     </FormControl>
                 </Box>
