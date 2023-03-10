@@ -174,7 +174,7 @@ const ItemManager = ({ type }) => {
                             id: 'itemCategory',
                         }}
                     >
-                        {categories.categories && categories.categories.map(cat => <option value={cat}>{normalizeCC(cat)}</option>)}
+                        {categories.categories && categories.categories.map(cat => <option key={cat} value={cat}>{normalizeCC(cat)}</option>)}
                     </NativeSelect>
                 </FormControl>
             </Box>
@@ -187,7 +187,7 @@ const ItemManager = ({ type }) => {
                             id: 'itemSubCategory',
                         }}
                     >
-                        {categories.subCategories && categories.subCategories.map(cat => cat !== 'categoryInfo' && <option value={cat}>{normalizeCC(cat)}</option>)}
+                        {categories.subCategories && categories.subCategories.map(cat => cat !== 'categoryInfo' && <option key={cat} value={cat}>{normalizeCC(cat)}</option>)}
                     </NativeSelect>
                 </FormControl>
             </Box>

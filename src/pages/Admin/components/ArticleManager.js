@@ -134,7 +134,7 @@ const ArticleManager = () => {
                             id: 'itemCategory',
                         }}
                     >
-                        {categories.map(cat => <option value={cat}>{normalizeCC(cat)}</option>)}
+                        {categories.map(cat => <option key={cat} value={cat}>{normalizeCC(cat)}</option>)}
                     </NativeSelect>}
                 </FormControl>
             </Box>
@@ -159,7 +159,6 @@ const ArticleManager = () => {
             {percent > 0 && <ProgressBar value={percent} />}
             {formData.file && <><Button onClick={handleUpload} type='button'>Upload image</Button></>}
             <Button type='submit' disabled={percent !== 100 && true} >Add Article</Button>
-
         </Box>
     )
 }

@@ -19,7 +19,6 @@ const paths = {
 }
 
 export default function ResponsiveDialog({ setOpen, open, item, type, hasItem, setHasItem }) {
-    console.log(hasItem);
     const user = useSelector((state) => state.auth)
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));

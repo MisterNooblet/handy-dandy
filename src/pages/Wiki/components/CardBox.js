@@ -44,12 +44,12 @@ const CardBox = ({ params, array, isItem }) => {
             <>
 
                 {array.map((card) => (
-                    <Grid item key={card.title} xs={12} sm={6} md={4}>
+                    <Grid item key={card.title} xs={12} sm={6} md={4} m={3}>
                         <Card
                             sx={{
                                 height: '100%',
                                 display: 'flex',
-                                flexDirection: 'column',
+                                flexDirection: 'column'
                             }}
                         >
                             <CardMedia
