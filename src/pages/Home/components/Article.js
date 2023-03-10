@@ -15,9 +15,7 @@ const Article = ({ article }) => {
         setOpen(true);
     };
 
-
     const user = useSelector((state) => state.auth)
-
     const handleOpenPopup = (item, type, hasCurrentItem) => {
         setCurrentItem(prev => prev = item)
         setCurrentType(prev => prev = type)
@@ -41,12 +39,11 @@ const Article = ({ article }) => {
                 {article.name}
             </Typography>
             <Box sx={{ mb: 5, display: 'flex', flexDirection: { xs: 'column' }, justifyContent: 'center', alignItems: 'center' }}>
-
                 <Box component={'div'} sx={{ background: `url('${article.image}') center center/contain no-repeat`, width: '300px', height: '300px', boxSizing: 'border-box', flexGrow: 1 }} />
-                <Typography width={'fit-content'} >{article.description}</Typography>
+                <Typography width={'fit-content'} >{article.description.split('\n').map(txtline => { return <><br key={txtline} />{txtline}</> })}</Typography>
             </Box>
             <Box sx={{ width: '100%', display: 'flex', flexDirection: { xs: 'column', md: 'row' }, justifyContent: 'space-around', flexWrap: 'wrap' }}>
-                <Card sx={{ bgcolor: 'background.default' }}>
+                <Card sx={{ bgcolor: 'background.default', mb: 4 }}>
                     <Typography>Materials Required:</Typography>
                     <List>
                         {article.materials.map(item => {
@@ -59,7 +56,7 @@ const Article = ({ article }) => {
                         })}
                     </List>
                 </Card>
-                <Card sx={{ bgcolor: 'background.default' }}>
+                <Card sx={{ bgcolor: 'background.default', mb: 4 }}>
                     <Typography >Tools Required:</Typography>
                     <List>
                         {article.tools.map(item => {
