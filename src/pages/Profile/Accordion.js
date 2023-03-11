@@ -11,8 +11,6 @@ export default function ControlledAccordions() {
     const [expanded, setExpanded] = React.useState(false);
     const user = useSelector((state) => state.auth)
 
-    console.log(user);
-
     const handleChange = (panel) => (event, isExpanded) => {
         setExpanded(isExpanded ? panel : false);
     };

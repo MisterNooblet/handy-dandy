@@ -23,10 +23,6 @@ const Toolbox = () => {
     const user = useSelector((state) => state.auth)
     const dispatch = useDispatch()
 
-
-    console.log(user.userExtras);
-
-
     const [checked, setChecked] = React.useState([0]);
 
     const handleToggle = (value) => () => {

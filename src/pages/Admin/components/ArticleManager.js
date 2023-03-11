@@ -91,7 +91,6 @@ const ArticleManager = () => {
             addNewItem(category, articleObj)
             formDispatch({ type: 'clearForm' })
             setPercent(0)
-            console.log(articleObj);
         }
     }
 

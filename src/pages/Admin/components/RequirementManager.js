@@ -41,7 +41,6 @@ const RequirementManager = ({ target, neededTools, neededMaterials, setNeededMat
     const [right, setRight] = useState([]);
 
     useEffect(() => {
-        console.log(getItemCategories);
         getItemCategories()
         //eslint-disable-next-line
     }, [])
@@ -67,7 +66,6 @@ const RequirementManager = ({ target, neededTools, neededMaterials, setNeededMat
 
     const getItemCategories = async () => {
         const categoryIds = await dataFetcher.getItemCategories(target)
-        console.log(categoryIds);
         toolDispatch({ type: 'setCategories', categories: categoryIds })
     }
 

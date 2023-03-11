@@ -12,7 +12,6 @@ const ItemCard = ({ item }) => {
     const [userHasTool, setUserHasTool] = useState(null)
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    console.log(item);
 
     const addNewItemToToolbox = async () => {
         const toolCatRef = doc(db, `users`, user.user.uid);

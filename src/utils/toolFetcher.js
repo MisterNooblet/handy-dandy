@@ -5,7 +5,6 @@ const toolFetcher = {
 
     async getTools(category, subcategory, tool) {
         let subCategoryList = []
-        console.log(category);
         const docRef = doc(db, `${category}`, subcategory)
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {

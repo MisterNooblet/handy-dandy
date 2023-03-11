@@ -52,11 +52,10 @@ const Home = () => {
         }
         //eslint-disable-next-line
     }, [category])
-    // const dispatch = useDispatch()
     return (
         <>
             <AutoComplete label={'Category'} array={categories} setCategory={setCategory} />
-            <AutoComplete label={'Article'} array={articleNames} setCategory={setArticle} />
+            <AutoComplete label={'Article'} array={articleNames} categories={category} setCategory={setArticle} />
             {!article && <Intro />}
             {articleToDisplay && articleToDisplay.length > 0 && <Article article={articleToDisplay[0]} />}
         </>
