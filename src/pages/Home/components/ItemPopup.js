@@ -40,7 +40,6 @@ export default function ResponsiveDialog({ setOpen, open, item, type, hasItem, s
 
     return (
         <div>
-
             <Dialog
                 fullScreen={fullScreen}
                 open={open}
@@ -58,22 +57,23 @@ export default function ResponsiveDialog({ setOpen, open, item, type, hasItem, s
                         </List>
                     </>
                 </DialogContent>
-                <DialogActions>
-                    <Button autoFocus onClick={handleClose}>
+                <DialogActions >
+                    <Button sx={{ color: 'white' }} autoFocus onClick={handleClose}>
                         Close
                     </Button>
                     <Link to={type && `${type === 'tool' ? paths.tools : paths.materials}${item.category}/tools/${item.subCategory}/item/${item.name}`} target='_blank' >
-                        <Button onClick={() => {
+                        <Button sx={{ color: 'white' }} onClick={() => {
                             handleClose()
 
                         }} autoFocus>
                             Read more in Tool-O-Pedia
                         </Button>
                     </Link>
-                    {user.user && <Button onClick={() => {
-                        setHasItem(prev => prev = !prev)
-                        addNewItemToToolbox()
-                    }} autoFocus disabled={hasItem && true}>
+                    {user.user && <Button sx={{ color: 'white' }}
+                        onClick={() => {
+                            setHasItem(prev => prev = !prev)
+                            addNewItemToToolbox()
+                        }} autoFocus disabled={hasItem && true}>
                         {hasItem ? 'In toolbox' : 'Add to toolbox'}
                     </Button>}
                 </DialogActions>

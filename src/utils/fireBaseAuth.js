@@ -5,6 +5,7 @@ import { db } from "./fireBaseConfig";
 
 
 const fireBaseAuth = {
+
     async signUp(email, password, firstName, lastName, country) {
         const auth = getAuth();
         try {
@@ -35,6 +36,7 @@ const fireBaseAuth = {
             // ...
         });
     },
+
     updateUserPfp(photoUrl) {
         const auth = getAuth();
         updateProfile(auth.currentUser, {
@@ -47,6 +49,7 @@ const fireBaseAuth = {
             // ...
         });
     },
+
     async addExtraInfo(country, uid) {
         await setDoc(doc(db, `users`, uid), {
             country: country,
@@ -56,6 +59,7 @@ const fireBaseAuth = {
         this.signUserOut()
 
     },
+
     async updateExtraInfo(uid, toolbox, country) {
         if (country && toolbox) {
             await updateDoc(doc(db, `users`, uid), {

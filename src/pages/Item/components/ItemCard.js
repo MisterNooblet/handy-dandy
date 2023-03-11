@@ -1,4 +1,4 @@
-import { Button, Card, CardMedia, Typography } from '@mui/material'
+import { Button, Card, CardMedia, List, ListItem, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import { arrayUnion, doc, updateDoc } from 'firebase/firestore'
 import React, { useEffect, useState } from 'react'
@@ -39,13 +39,13 @@ const ItemCard = ({ item }) => {
                     {item.name}
                 </Typography>
                 <Typography>{item.description}</Typography>
-                <ul>
-                    {item.props.length > 0 && item.props.map(prop => prop && <li key={prop}><Typography >{prop}</Typography></li>)}
-                </ul>
+                <List>
+                    {item.props.length > 0 && item.props.map(prop => prop && <ListItem key={prop}><Typography >{prop}</Typography></ListItem>)}
+                </List>
                 <Box>
                     {user.user && !userHasTool && <Button sx={{ width: 'fit-content' }} onClick={addNewItemToToolbox}>Add to my Toolbox</Button>}
                     {user.user && userHasTool && <Button sx={{ width: 'fit-content' }} onClick={() => navigate('/toolbox')}>You own this tool! to toolbox?</Button>}
-                    <Button sx={{ width: 'fit-content' }} onClick={() => navigate(-1)}>Back to Categorty</Button>
+                    <Button sx={{ width: 'fit-content' }} onClick={() => navigate(-1)}>Back to Category</Button>
                 </Box>
             </Box>
 

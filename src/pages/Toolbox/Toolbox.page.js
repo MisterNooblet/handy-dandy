@@ -20,10 +20,10 @@ import { setToolBox } from '../../store/authSlice';
 const Toolbox = () => {
     const [moreInfo, setMoreInfo] = useState(null)
     const [listHeight, setListHeight] = useState('80%')
+    const [checked, setChecked] = React.useState([0]);
+
     const user = useSelector((state) => state.auth)
     const dispatch = useDispatch()
-
-    const [checked, setChecked] = React.useState([0]);
 
     const handleToggle = (value) => () => {
         const currentIndex = checked.indexOf(value);
@@ -38,7 +38,6 @@ const Toolbox = () => {
         setChecked(newChecked);
     };
 
-
     const handleUpdateToolbox = async () => {
         const newToolBox = user.userExtras.toolbox.filter(item => !checked.includes(item.name))
         const cityRef = doc(db, 'users', user.user.uid);
@@ -47,7 +46,6 @@ const Toolbox = () => {
         setChecked([0])
 
     }
-
 
     if (!user.user) {
         return (

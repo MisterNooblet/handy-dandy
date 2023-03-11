@@ -6,6 +6,7 @@ import AuthProvider from "./utils/AuthProvider";
 
 function App() {
   const user = useSelector((state) => state.auth)
+
   const router = createBrowserRouter([
     {
       path: '/',

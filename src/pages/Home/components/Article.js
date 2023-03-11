@@ -11,11 +11,14 @@ const Article = ({ article }) => {
     const [currentItem, setCurrentItem] = useState(null)
     const [currentType, setCurrentType] = useState(null)
     const [hasItem, setHasItem] = useState(null)
+
+    const user = useSelector((state) => state.auth)
+
     const handleClickOpen = () => {
         setOpen(true);
     };
 
-    const user = useSelector((state) => state.auth)
+
     const handleOpenPopup = (item, type, hasCurrentItem) => {
         setCurrentItem(prev => prev = item)
         setCurrentType(prev => prev = type)

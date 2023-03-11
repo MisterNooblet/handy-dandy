@@ -2,14 +2,12 @@ import { doc, getDoc } from 'firebase/firestore'
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { db } from '../../utils/fireBaseConfig'
+import ErrorAPI from '../Error/ErrorAPI.page'
 import ItemCard from './components/ItemCard'
 
 const Item = () => {
-
     const [item, setItem] = useState(null)
     const params = useParams()
-
-
 
     useEffect(() => {
         getTool()
@@ -42,10 +40,9 @@ const Item = () => {
             }
 
         } else {
-            console.log("No such document!");
+            return <ErrorAPI />
         }
     }
-
 
     if (item) {
         return <ItemCard item={item} />

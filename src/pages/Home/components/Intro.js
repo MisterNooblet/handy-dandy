@@ -15,14 +15,6 @@ const Intro = () => {
           image={image}
         />
         <CardContent>
-          {/* <Typography
-            textAlign={'center'}
-            gutterBottom
-            variant="h5"
-            component="div"
-          >
-            Who are We?
-          </Typography> */}
           <Typography sx={{ m: { md: '20px 60px' } }} variant="body1" color="text.secondary" lineHeight={'2'}>
             If you're considering hanging an object on a wall or attempting to change an oil filter in your car without prior experience or uncertainty about the necessary tools, you can rest easy knowing that we're here to assist you.<br />
             Our collection of articles covers a range of do-it-yourself tasks both indoors and outdoors, making it easy for you to find the information you need to complete your project.

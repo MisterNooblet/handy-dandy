@@ -21,10 +21,10 @@ import fireBaseAuth from '../../utils/fireBaseAuth';
 export default function Register() {
     const [errorMsg, setErroMsg] = React.useState(null)
 
-
     const navigate = useNavigate()
     const api = useSelector((state) => state.api)
     const dispatch = useDispatch()
+
     React.useEffect(() => {
 
         dispatch(fetchCountries())
@@ -41,8 +41,6 @@ export default function Register() {
         const country = data.get('Country')
         const password = data.get('password')
         const password2 = data.get('password2')
-        //eslint-disable-next-line
-        const allowPromotions = data.get('checkbox')
         const invalidMail = validateEmail(email)
         if (!invalidMail && password2 === password && password.length >= 8 && password2.length >= 8 && firstName.length > 0 && lastName.length > 0) {
             const result = await fireBaseAuth.signUp(email, password, firstName, lastName, country)
