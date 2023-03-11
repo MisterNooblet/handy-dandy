@@ -30,8 +30,7 @@ export default function ControlledAccordions() {
                 </AccordionSummary>
                 <AccordionDetails>
                     <Typography>
-                        Nulla facilisi. Phasellus sollicitudin nulla et quam mattis feugiat.
-                        Aliquam eget maximus est, id dignissim quam.
+                        Were working on it....
                     </Typography>
                 </AccordionDetails>
             </Accordion>
@@ -67,8 +66,7 @@ export default function ControlledAccordions() {
                 </AccordionSummary>
                 <AccordionDetails>
                     <Typography>
-                        Nunc vitae orci ultricies, auctor nunc in, volutpat nisl. Integer sit
-                        amet egestas eros, vitae egestas augue. Duis vel est augue.
+                        Were working on it....
                     </Typography>
                 </AccordionDetails>
             </Accordion>
@@ -85,8 +83,7 @@ export default function ControlledAccordions() {
                 </AccordionSummary>
                 <AccordionDetails>
                     <Typography>
-                        Nunc vitae orci ultricies, auctor nunc in, volutpat nisl. Integer sit
-                        amet egestas eros, vitae egestas augue. Duis vel est augue.
+                        Were working on it....
                     </Typography>
                 </AccordionDetails>
             </Accordion>
