@@ -16,10 +16,8 @@ export default function ComboBox({ label, array, visibility, setCategory, title,
     return (
         <Autocomplete sx={{ visibility: visibility, m: setCategory ? '20px 0' : '0' }}
             onChange={(e) => setCategory && setCategory(prev => prev = e.target.innerHTML)}
-            clearOnBlur='true'
             disablePortal
             options={array}
-            defaultValue=''
             fullwidth='true'
             renderInput={(params) => <TextField id={label} title={title}
                 name={label}{...params} label={label} />}
