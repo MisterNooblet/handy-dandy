@@ -135,7 +135,7 @@ const ItemManager = ({ type }) => {
     }
 
     return (
-        <Box component='form' noValidate onSubmit={handleAddItem} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-around', width: { sm: '100%', md: '60%', lg: '50%' } }}>
+        <Box component='form' noValidate onSubmit={handleAddItem} sx={{ backgroundColor: 'background.paper', p: 4, borderRadius: 4, display: 'flex', flexDirection: 'column', justifyContent: 'space-around', width: { sm: '100%', md: '60%', lg: '50%' } }}>
             <Box sx={{ minWidth: 120 }}>
                 <FormControl fullWidth>
                     <NativeSelect
@@ -167,7 +167,6 @@ const ItemManager = ({ type }) => {
                 id: 'itemTitle',
             }} label={`${type} Title`} variant="standard" value={formData.title} onChange={(e) => formDispatch({ type: 'updateTitle', value: e.target.value })} />
             <TextField id="itemProps" name='itemProps' label={`${type} properties seperated by | ex: Good grip | Sturdy`} variant="standard" value={formData.properties} onChange={(e) => formDispatch({ type: 'updateProps', value: e.target.value })} />
-            <ImageUpload type={'item'} location={`${type}images`} percentControl={setPercent} urlControl={formDispatch} />
             <TextareaAutosize
                 value={formData.description} onChange={(e) => formDispatch({ type: 'updateDescription', value: e.target.value })}
                 aria-label="minimum height"
@@ -177,7 +176,8 @@ const ItemManager = ({ type }) => {
                 id='shortDescription'
                 name='shortDescription'
             />
-            <Button type='submit' disabled={percent !== 100 && true}>Add {type}</Button>
+            <ImageUpload type={'item'} location={`${type}images`} percentControl={setPercent} urlControl={formDispatch} />
+            <Button sx={{ color: 'white' }} type='submit' disabled={percent !== 100 && true}>Add {type}</Button>
         </Box>
     )
 }

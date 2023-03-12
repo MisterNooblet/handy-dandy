@@ -88,10 +88,10 @@ export default function TransferList({ setChecked, setLeft, setRight, checked, l
     );
 
     return (
-        <Grid container spacing={2} justifyContent="center" alignItems="center">
+        <Grid container spacing={2} justifyContent="center" alignItems="center" sx={{ display: 'flex', flexDirection: { xs: 'column', xl: 'row' } }}>
             <Grid item>{customList(left)}</Grid>
             <Grid item>
-                <Grid container direction="column" alignItems="center">
+                <Grid container direction="column" alignItems="center" sx={{ rotate: { xs: '90deg', xl: '0deg' } }}>
                     <Button
                         sx={{ my: 0.5 }}
                         variant="outlined"

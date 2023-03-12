@@ -109,7 +109,7 @@ const RequirementManager = ({ target, neededTools, neededMaterials, setNeededMat
                     </FormControl>
                 </Box>
             </Box>
-            <Box p={3} sx={{ border: '1px solid black', borderRadius: '10px' }}>
+            <Box p={3} sx={{ borderRadius: '10px', backgroundColor: 'background.default' }}>
 
                 <Typography mb={2} textAlign={'center'}>Needed {target}</Typography>
                 <TransferList setChecked={setChecked} setLeft={setLeft} setRight={setRight} checked={checked} left={left} right={right} />

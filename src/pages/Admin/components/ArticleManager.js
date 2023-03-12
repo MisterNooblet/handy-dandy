@@ -95,7 +95,7 @@ const ArticleManager = () => {
     }
 
     return (
-        <Box component='form' noValidate onSubmit={handleAddItem} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-around', width: { sm: '100%', md: '60%', lg: '50%' } }}>
+        <Box component='form' noValidate onSubmit={handleAddItem} sx={{ backgroundColor: 'background.paper', p: 4, gap: 2, borderRadius: 4, display: 'flex', flexDirection: 'column', justifyContent: 'space-around', width: { sm: '100%', md: '60%', lg: '50%' } }}>
             <Box sx={{ minWidth: 120 }}>
                 <FormControl fullWidth >
                     {categories && <NativeSelect
