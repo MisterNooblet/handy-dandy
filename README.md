@@ -1,70 +1,117 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# AppleSeeds Mid - Project - Handy Dandy
 
-## Available Scripts
+Essentially, this project serves as a versatile platform, which furnishes users with information on a variety of DIY projects around the house. Moreover, it also equips them with the requisite tools and materials necessary for completing each specific project, whilst providing detailed information about every tool or material in the "TOOL-O-PEDIA".
 
-In the project directory, you can run:
 
-### `npm start`
+## Demo
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+https://handy-dandy.netlify.app/
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
 
-### `npm test`
+## Features
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Self built "Wiki" providing information about construction tools and materials
+- Admin panel providing dynamic management of the database (adding tools , materials and articles)
+- User personal Toolbox , for keeping track of their tools.
+- Article contains tools , and materials needed props and are communicating with the users toolbox.
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Dependencies
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+`@reduxjs/toolkit` `axios` `dotenv` `firebase` `react-redux` `react-router-dom`
 
-### `npm run eject`
+## Project Development Roadmap
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Getting familiar with never used before technologies
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- Firebase
+- MUI
+- Redux
+- Redux-Toolkit
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Functionality:
 
-## Learn More
+- Basic structure of the application (Folders,Utilities,Pages)
+- Setting up Firebase configuration
+- Basic user authentication and routing
+- A more complex authentication verification and adding extra information to firestore on user signup.
+- Wrapping application with an Auth provider component.
+- Admin panel with basic tool adding Functionality.
+- Basic "wiki" to display data added from Admin panel.
+- Diving deeper in the "wiki" data displaying until specific Tool/Material with routing params
+- User toolbox
+- Making Toolmanager generic to manage materials as well.
+- Adding an Article manager.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Design:
 
-### Code Splitting
+- Laying out base components from MUI
+- Making a global theme , and designing specific components.
+- Final styling
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### Performance:
+- Seperating !DRY functions to global Utilities.
+- Dividing global pattern's to global components (AutoComplete input / ImageUpload component )
 
-### Analyzing the Bundle Size
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
 
-### Making a Progressive Web App
+### Documentation:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+- Add readme to the repository
 
-### Advanced Configuration
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## Lessons Learned
 
-### Deployment
+- Reading and using DB data across the whole application and generating new data depending on existing data.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+- Managing a global state wisely to avoid unecessary ajax requests.
 
-### `npm run build` fails to minify
+- Building a complex admin panel.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- Using redux for better global state management
+
+- Using firebase
+
+- Using MUI
+
+
+
+
+## Authors
+
+- [@MisterNooblet](https://www.github.com/MisterNooblet)
+
+
+## 🚀 About Me
+
+I'm a full stack development student.
+
+
+## Getting Started
+
+To get started with the project, follow these steps:
+
+Clone the repository:
+```bash 
+git clone https://github.com/MisterNooblet/handy-dandy.git
+```
+Install dependencies:
+```bash 
+npm install
+```
+Start the development server: 
+```bash 
+npm start
+```
+The app will be served at http://localhost:3000/.
+
+Don't forget to add your own firebase config.
+
+## PS
+
+Feel free to use the code and don't forget to Star ⭐ the repository.
+
